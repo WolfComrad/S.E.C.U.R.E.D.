@@ -5,12 +5,6 @@ We are S.E.C.U.R.E.D., the amalgamation of two elite task forces—MCAT and SINT
 ## *MCAT* *(Mathematical Cryptographic Advancement Taskforce)* 
 We are MCAT. An elite team forged in the crucible of secrecy and expertise, we stand as the vanguard of cryptographic defense. Each member of our team possesses unparalleled skills, honed through years of relentless training and unwavering dedication. Led by the brilliant codebreaker, Agent Cipher, and his colleagues, Agent Nightshade and Agent Phantom, our mission is clear: to create an impenetrable cryptographic algorithm using Elliptic Curve Cryptography (ECC) that will safeguard the world's most sensitive information. Our objective is to program this masterpiece into a groundbreaking messaging app known as Bull-it (built by *SINT*), fortifying it with unbreakable security. We are the silent protectors, the unsung heroes who operate in the shadows, armed with unparalleled expertise and boundless determination. We could give you the answers to solve our algorithm, but we would have to kill you.
 
-Objective steps:
-- Research/learn RSA
-- Research/learn ECC
-- Design our own ECC
-- Program our algorithm
-
 Information:
 - Our curve is $135y^2=x^3-435x+299$
 - We are using *Serpent* for our asymmetric encrypt/decrypt
