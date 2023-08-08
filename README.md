@@ -1,3 +1,3 @@
-# CMPS-411-masters
-Capstone project
-we will add more later
+# S.E.C.U.R.E.D.
+## *S.E.C.U.R.E.D. (Securely, Encrypting Communication U Read Every Day)*
+We are S.E.C.U.R.E.D., the amalgamation of two elite task forces—MCAT and SINT—forged with a common purpose. Under the leadership of Agent Phantom, our enigmatic commander with unparalleled strategic prowess, we embark on a mission of utmost importance. Our objective is to create a messaging app named Bull-it, and within its very core, implement an unbreakable ECC algorithm. [[MCAT]], with their exceptional prowess in cryptography, tirelessly crafts the algorithm, weaving a digital fortress of unmatched security. Meanwhile, [[SINT]], armed with their expertise in app development and innovation, breathes life into Bull-it, transforming it into a seamless and user-friendly platform. As S.E.C.U.R.E.D., we are the guardians of secure communication, operating under the watchful eye of Agent Stratos, our guiding force. Together, we ensure that messages traverse the digital realm with impenetrable protection, carrying out our mission with unwavering resolve and covert excellence. The world may never know the true extent of our efforts, but they shall forever benefit from the shield of encryption we weave
