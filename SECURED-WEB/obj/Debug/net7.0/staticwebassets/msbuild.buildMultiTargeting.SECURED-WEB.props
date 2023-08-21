@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\SECURED-WEB.props" />
+</Project>
