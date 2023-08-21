@@ -1,6 +1,8 @@
-﻿namespace SECURED_WEB.Entities;
+﻿using Microsoft.AspNetCore.Identity;
 
-public class User
+namespace SECURED_WEB.Entities;
+
+public class User : IdentityUser<int>
 {
     public int Id { get; set; }
     public string FirstName { get; set; } = string.Empty;
