@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "HjvQDHn5W2izzV/hD6nIU641UQn6lSg/7nF5rsnBrhirxJbSKQjhrzHWVN8tb2h0EAscnPUmtkaejj4tvFZahA==",
+  "dgSpecHash": "LVf5RVO7omWRHaG6B7ii4gXfC2mYxIVebIQvGWzvnsLQh9/E3s7xTAKjTLPR+DEXC/YXY0CTjmmBRAQId4WYxQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Jacob\\source\\repos\\WolfComrad\\S.E.C.U.R.E.D\\SECURED-WEB\\SECURED-WEB.csproj",
+  "projectFilePath": "C:\\Users\\Jacob\\Source\\Repos\\WolfComrad\\S.E.C.U.R.E.D\\SECURED-WEB\\SECURED-WEB.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Jacob\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\Jacob\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
