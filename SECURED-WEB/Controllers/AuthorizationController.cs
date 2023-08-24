@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.EntityFrameworkCore;
 using SECURED_WEB.Data;
 using SECURED_WEB.Entities;
 using SECURED_WEB.Extensions;
+using SECURED_WEB.Hubs;
 using SECURED_WEB.Models;
 
 namespace SECURED_WEB.Controllers
@@ -16,13 +17,15 @@ namespace SECURED_WEB.Controllers
     {
         private readonly SignInManager<User> signInManager;
         private readonly UserManager<User> userManager;
+        private readonly ChatHub chatHub;
         private readonly IServiceProvider service;
 
-        public AuthorizationController(SignInManager<User> signInManager, UserManager<User> userManager, IServiceProvider service)
+        public AuthorizationController(SignInManager<User> signInManager, UserManager<User> userManager, IServiceProvider service, ChatHub chatHub)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
             this.service = service;
+            this.chatHub = chatHub;
         }
 
         [HttpGet("whoami")]
@@ -42,6 +45,9 @@ namespace SECURED_WEB.Controllers
         public async Task<IActionResult> Login(LoginModel login)
         {
             var user = await userManager.FindByNameAsync(login.UserName);
+          
+
+           
             if (user == null)
             {
                 return BadRequest();
@@ -55,6 +61,7 @@ namespace SECURED_WEB.Controllers
             }
 
             await signInManager.SignInAsync(user,false);
+            
             var resultObject = await ToUserDto(userManager.Users)
                                      .SingleAsync(x => x.UserName == user.UserName); 
 
@@ -63,6 +70,7 @@ namespace SECURED_WEB.Controllers
 
 
         [HttpPost("logout")]
+        [Authorize]
         public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();
@@ -106,7 +114,7 @@ namespace SECURED_WEB.Controllers
         private static IQueryable<UserDto> ToUserDto(IQueryable<User> users)
         {
             return users.Select(x => new UserDto
-            {
+            {   
                 Id = x.Id,
                 FirstName = x.FirstName,
                 LastName = x.LastName,
