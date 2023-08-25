@@ -15,7 +15,7 @@ public class Message
     public virtual User Receiver { get; set; } = null!;
     public int SenderId { get; set; }
     public int ReceiverId { get; set; }
-
+  
 
 
 }
