@@ -11,7 +11,7 @@
         "projectName": "SECURED-WEB",
         "projectPath": "C:\\Users\\Jacob\\Source\\Repos\\WolfComrad\\S.E.C.U.R.E.D\\SECURED-WEB\\SECURED-WEB.csproj",
         "packagesPath": "C:\\Users\\Jacob\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Jacob\\source\\repos\\WolfComrad\\S.E.C.U.R.E.D\\SECURED-WEB\\obj\\",
+        "outputPath": "C:\\Users\\Jacob\\Source\\Repos\\WolfComrad\\S.E.C.U.R.E.D\\SECURED-WEB\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Jacob\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -40,11 +40,19 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "Microsoft.AspNet.SignalR": {
+              "target": "Package",
+              "version": "[2.4.3, )"
+            },
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
               "target": "Package",
               "version": "[7.0.10, )"
             },
             "Microsoft.AspNetCore.OpenApi": {
+              "target": "Package",
+              "version": "[7.0.10, )"
+            },
+            "Microsoft.AspNetCore.SignalR.Client": {
               "target": "Package",
               "version": "[7.0.10, )"
             },
