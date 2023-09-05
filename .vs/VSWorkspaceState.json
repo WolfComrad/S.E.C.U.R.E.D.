@@ -1,10 +1,7 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\SECURED",
-    "\\SECURED-WEB",
-    "\\SECURED-WEB\\Hubs"
+    ""
   ],
-  "SelectedNode": "\\SECURED-WEB\\Hubs\\ChatHub.cs",
+  "SelectedNode": "\\SECURED.sln",
   "PreviewInSolutionExplorer": false
 }
