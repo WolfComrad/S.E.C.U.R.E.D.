@@ -22,10 +22,11 @@ public static class ServiceExtensions
         {
             options.AddDefaultPolicy(builder =>
             {
-                builder.WithOrigins("http://localhost:3000")
+                builder.WithOrigins("http://localhost:5037")
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowCredentials();
+                
             });
         });
 

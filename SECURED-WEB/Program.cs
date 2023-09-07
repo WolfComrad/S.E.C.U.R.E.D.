@@ -40,7 +40,7 @@ app.UseCors();
 app.MapHub<ChatHub>("/chathub");
 
 
-app.UseHttpsRedirection();
+
 
 
 

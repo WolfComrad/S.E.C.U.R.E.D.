@@ -26,7 +26,7 @@ namespace SECURED_WEB.Controllers
             this.userManager = userManager;
             this.service = service;
             this.chatHub = chatHub;
-        }
+   }
 
         [HttpGet("whoami")]
         [Authorize]
