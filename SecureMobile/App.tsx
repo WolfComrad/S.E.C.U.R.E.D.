@@ -5,8 +5,8 @@
  * @format
  */
 
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 import type {PropsWithChildren} from 'react';
 import {
@@ -56,19 +56,29 @@ type SectionProps = PropsWithChildren<{
 //     </View>
 //   );
 // }
-const Stack = createNativeStackNavigator()
+const Stack = createNativeStackNavigator();
 
-import LoginScreen from "./screens/LoginScreen"
+import LoginScreen from './screens/LoginScreen';
+import HomeScreen from './screens/HomeScreen';
 
 const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Login" component={LoginScreen}/>
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{headerShown: true}}
+        />
       </Stack.Navigator>
     </NavigationContainer>
-  )
-} 
+  );
+};
 
 // function App(): JSX.Element {
 //   const isDarkMode = useColorScheme() === 'dark';
