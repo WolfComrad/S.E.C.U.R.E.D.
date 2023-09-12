@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {baseUrl} from './testingUrls/URLS';
+import {JACOBS_IP} from '../urls/url';
 import {
   Alert,
   Pressable,
@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import {styles} from '../App';
 import axios from 'axios';
+import {useNavigation} from '@react-navigation/native';
 
 function RegisterScreen() {
   const [userName, setUserName] = useState('');
@@ -18,11 +19,13 @@ function RegisterScreen() {
   const [password, setPassword] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [email, setEmail] = useState('');
-  const [checkFirstName, setCheckFirstName] = useState(false);
-  const [checkLastName, setCheckLastName] = useState(false);
-  const [checkValidEmail, setCheckValidEmail] = useState(false);
-  const [checkValidPassword, setCheckValidPassword] = useState(false);
-  const [checkValidPhoneNumber, setCheckValidPhoneNumber] = useState(false);
+  const [checkFirstName, setCheckFirstName] = useState(true);
+  const [checkLastName, setCheckLastName] = useState(true);
+  const [checkValidEmail, setCheckValidEmail] = useState(true);
+  const [checkValidPassword, setCheckValidPassword] = useState(true);
+  const [checkValidPhoneNumber, setCheckValidPhoneNumber] = useState(true);
+
+  const navigate = useNavigation();
 
   const handleCheckPassword = (password: string) => {
     let re =
@@ -48,19 +51,17 @@ function RegisterScreen() {
   const handleCheckFirstName = (name: string) => {
     setFirstName(name);
     if (name.length > 0 && !/\s/.test(name)) {
-      setCheckFirstName(true);
-    } else {
       setCheckFirstName(false);
-      console.log(name);
+    } else {
+      setCheckFirstName(true);
     }
   };
   const handleCheckLastName = (name: string) => {
     setLastName(name);
     if (name.length > 0 && !/\s/.test(name)) {
-      setCheckLastName(true);
-    } else {
       setCheckLastName(false);
-      console.log(name);
+    } else {
+      setCheckLastName(true);
     }
   };
 
@@ -85,9 +86,9 @@ function RegisterScreen() {
       email: email,
       phoneNumber: phoneNumber,
     };
-
+    console.log('pressed');
     axios
-      .post(`${baseUrl}/api/authorization/register`, userDto)
+      .post(`${JACOBS_IP}/api/authorization/register`, userDto)
       .then(response => {
         console.log(response.status);
         Alert.alert(
@@ -100,6 +101,7 @@ function RegisterScreen() {
         setEmail('');
         setPassword('');
         setPhoneNumber('');
+        navigate.navigate('Login');
       })
       .catch(error => {
         Alert.alert(
@@ -123,18 +125,10 @@ function RegisterScreen() {
             fontSize: 17,
             marginTop: 15,
           }}>
-          Register To your Account
+          Register An Account
         </Text>
         <View style={{marginTop: 50}}>
           <View>
-            <Text style={{fontSize: 17, fontWeight: '600', color: 'gray'}}>
-              Email
-            </Text>
-            {!checkValidEmail ? (
-              <Text style={{color: 'green'}}>* Accepted</Text>
-            ) : (
-              <Text style={{color: 'red'}}>* Incorrect Format</Text>
-            )}
             <TextInput
               value={email}
               onChangeText={text => handleCheckEmail(text)}
@@ -142,17 +136,17 @@ function RegisterScreen() {
               placeholder="Enter Email"
               placeholderTextColor={'black'}
             />
+            <Text style={{fontSize: 17, fontWeight: '600', color: 'gray'}}>
+              Email
+              {!checkValidEmail ? (
+                <Text style={{color: 'green'}}>* Accepted</Text>
+              ) : (
+                <Text style={{color: 'red'}}>* Incorrect Format</Text>
+              )}
+            </Text>
           </View>
 
           <View>
-            <Text style={{fontSize: 17, fontWeight: '600', color: 'gray'}}>
-              First Name
-            </Text>
-            {checkFirstName ? (
-              <Text style={{color: 'green'}}>* Accepted</Text>
-            ) : (
-              <Text style={{color: 'red'}}>* Incorrect Format</Text>
-            )}
             <TextInput
               value={firstName}
               onChangeText={text => handleCheckFirstName(text)}
@@ -160,16 +154,16 @@ function RegisterScreen() {
               placeholder="Enter First Name"
               placeholderTextColor={'black'}
             />
+            <Text style={{fontSize: 17, fontWeight: '600', color: 'gray'}}>
+              First Name
+              {!checkFirstName ? (
+                <Text style={{color: 'green'}}>* Accepted</Text>
+              ) : (
+                <Text style={{color: 'red'}}>* Incorrect Format</Text>
+              )}
+            </Text>
           </View>
           <View>
-            <Text style={{fontSize: 17, fontWeight: '600', color: 'gray'}}>
-              Last Name
-            </Text>
-            {checkLastName ? (
-              <Text style={{color: 'green'}}>* Accepted</Text>
-            ) : (
-              <Text style={{color: 'red'}}>* Incorrect Format</Text>
-            )}
             <TextInput
               value={lastName}
               onChangeText={text => handleCheckLastName(text)}
@@ -177,11 +171,16 @@ function RegisterScreen() {
               placeholder="Enter Last Name"
               placeholderTextColor={'black'}
             />
+            <Text style={{fontSize: 17, fontWeight: '600', color: 'gray'}}>
+              Last Name
+              {!checkLastName ? (
+                <Text style={{color: 'green'}}>* Accepted</Text>
+              ) : (
+                <Text style={{color: 'red'}}>* Incorrect Format</Text>
+              )}
+            </Text>
           </View>
           <View>
-            <Text style={{fontSize: 17, fontWeight: '600', color: 'gray'}}>
-              User Name
-            </Text>
             <TextInput
               value={userName}
               onChangeText={text => setUserName(text)}
@@ -189,16 +188,11 @@ function RegisterScreen() {
               placeholder="Enter User Name"
               placeholderTextColor={'black'}
             />
+            <Text style={{fontSize: 17, fontWeight: '600', color: 'gray'}}>
+              User Name
+            </Text>
           </View>
           <View>
-            <Text style={{fontSize: 17, fontWeight: '600', color: 'gray'}}>
-              Phone Number
-            </Text>
-            {!checkValidPhoneNumber ? (
-              <Text style={{color: 'green'}}>* Accepted</Text>
-            ) : (
-              <Text style={{color: 'red'}}>* Incorrect Format</Text>
-            )}
             <TextInput
               onChangeText={text => handleCheckPhoneNumber(text)}
               value={phoneNumber}
@@ -206,16 +200,16 @@ function RegisterScreen() {
               placeholder="Enter Phone Number"
               placeholderTextColor={'black'}
             />
+            <Text style={{fontSize: 17, fontWeight: '600', color: 'gray'}}>
+              Phone Number
+              {!checkValidPhoneNumber ? (
+                <Text style={{color: 'green'}}>* Accepted</Text>
+              ) : (
+                <Text style={{color: 'red'}}>* Incorrect Format</Text>
+              )}
+            </Text>
           </View>
           <View>
-            <Text style={{fontSize: 17, fontWeight: '600', color: 'gray'}}>
-              Password
-            </Text>
-            {!checkValidPassword ? (
-              <Text style={{color: 'green'}}>* Accepted</Text>
-            ) : (
-              <Text style={{color: 'red'}}>* Incorrect Format</Text>
-            )}
             <TextInput
               value={password}
               onChangeText={text => handleCheckPassword(text)}
@@ -223,12 +217,21 @@ function RegisterScreen() {
               placeholder="Enter Password"
               placeholderTextColor={'black'}
             />
+            <Text style={{fontSize: 17, fontWeight: '600', color: 'gray'}}>
+              Password
+              {!checkValidPassword ? (
+                <Text style={{color: 'green'}}>* Accepted</Text>
+              ) : (
+                <Text style={{color: 'red'}}>* Incorrect Format</Text>
+              )}
+            </Text>
           </View>
         </View>
         {!checkValidEmail &&
         !checkValidPassword &&
         !checkValidPhoneNumber &&
-        !checkFirstName ? (
+        !checkFirstName &&
+        !checkLastName ? (
           <Pressable
             onPress={handleRegister}
             style={{
@@ -261,7 +264,9 @@ function RegisterScreen() {
             </Text>
           </Pressable>
         )}
-        <Pressable style={{marginTop: 15}}>
+        <Pressable
+          style={{marginTop: 15}}
+          onPress={() => navigate.navigate('Login')}>
           <Text style={{textAlign: 'center', color: 'gray', fontSize: 16}}>
             {' '}
             Already Have an Account? Sign in

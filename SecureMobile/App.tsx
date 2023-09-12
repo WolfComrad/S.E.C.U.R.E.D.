@@ -5,57 +5,25 @@
  * @format
  */
 
-import {NavigationContainer, useNavigation} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import {StyleSheet} from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
 import StackNavigator from './StackNavigator';
-import HomeScreen from './screens/HomeScreen';
-
-
-const Stack = createNativeStackNavigator();
-
-import LoginScreen from './screens/LoginScreen';
-import HomeScreen from './screens/HomeScreen';
+import {NavigationContainer} from '@react-navigation/native';
 
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Login"
-          component={LoginScreen}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{headerShown: true}}
-        />
-      </Stack.Navigator>
+      <StackNavigator />
     </NavigationContainer>
   );
 };
 
-
-
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
+  RegisterScreenStyle: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   sectionContainer: {
     marginTop: 32,
     paddingHorizontal: 24,
