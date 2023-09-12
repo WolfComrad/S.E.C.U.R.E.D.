@@ -5,8 +5,8 @@
  * @format
  */
 
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-
 import React from 'react';
 import {
   SafeAreaView,
@@ -28,11 +28,33 @@ import {
 import StackNavigator from './StackNavigator';
 import HomeScreen from './screens/HomeScreen';
 
+
 const Stack = createNativeStackNavigator();
 
-function App() {
-  return <StackNavigator/>;
-}
+import LoginScreen from './screens/LoginScreen';
+import HomeScreen from './screens/HomeScreen';
+
+const App = () => {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{headerShown: true}}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
+
+
+
 
 export const styles = StyleSheet.create({
   RegisterScreenStyle: {

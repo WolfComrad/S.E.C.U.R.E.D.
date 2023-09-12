@@ -4755,19 +4755,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Jacob\\.nuget\\packages\\": {}
+    "C:\\Users\\Marquinoli\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Jacob\\Source\\Repos\\WolfComrad\\S.E.C.U.R.E.D\\SECURED-WEB\\SECURED-WEB.csproj",
+      "projectUniqueName": "C:\\Users\\Marquinoli\\Documents\\Git\\SECURED\\SECURED-WEB\\SECURED-WEB.csproj",
       "projectName": "SECURED-WEB",
-      "projectPath": "C:\\Users\\Jacob\\Source\\Repos\\WolfComrad\\S.E.C.U.R.E.D\\SECURED-WEB\\SECURED-WEB.csproj",
-      "packagesPath": "C:\\Users\\Jacob\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Jacob\\Source\\Repos\\WolfComrad\\S.E.C.U.R.E.D\\SECURED-WEB\\obj\\",
+      "projectPath": "C:\\Users\\Marquinoli\\Documents\\Git\\SECURED\\SECURED-WEB\\SECURED-WEB.csproj",
+      "packagesPath": "C:\\Users\\Marquinoli\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Marquinoli\\Documents\\Git\\SECURED\\SECURED-WEB\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Jacob\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Marquinoli\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
