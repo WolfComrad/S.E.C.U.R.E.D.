@@ -82,7 +82,7 @@ namespace SECURED_WEB.Controllers
         {
             if (register == null)
             {
-                return BadRequest();
+                return BadRequest("Fields cannot be null");
             }
             var users = userManager.Users.ToList();
             foreach (var user in users)

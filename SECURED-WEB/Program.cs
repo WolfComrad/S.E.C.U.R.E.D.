@@ -39,7 +39,7 @@ app.UseCors();
 
 app.MapHub<ChatHub>("/chathub");
 
-
+    
 
 
 
