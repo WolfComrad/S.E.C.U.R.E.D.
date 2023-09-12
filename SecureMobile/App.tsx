@@ -8,7 +8,6 @@
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
-import type {PropsWithChildren} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -26,6 +25,8 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import StackNavigator from './StackNavigator';
+import HomeScreen from './screens/HomeScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -54,22 +55,19 @@ const App = () => {
 
 
 
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+
+export const styles = StyleSheet.create({
+  RegisterScreenStyle: {
+    flex: 1,
+    backgroundColor: 'white',
+    padding: 10,
+    alignItems: 'center',
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
+  FieldStyle: {
+    borderBottomColor: 'gray',
+    borderBottomWidth: 1,
+    marginVertical: 10,
+    width: 300,
   },
 });
 
