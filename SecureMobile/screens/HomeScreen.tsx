@@ -1,19 +1,17 @@
 import React from 'react';
-import { Text, View, Pressable } from 'react-native';
-import {useNavigation} from '@react-navigation/native'
-
-
+import {Text, View, Pressable} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 const HomeScreen = () => {
-
-  const navigation = useNavigation()
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
   return (
     <View>
       <Text>This is our Home screen!</Text>
       <View>
         <Pressable
           onPress={() => {
-            navigation.navigate('Register');
+            navigation.navigate('Login');
           }}
           style={{
             marginTop: 50,
@@ -21,7 +19,7 @@ const HomeScreen = () => {
             marginRight: 'auto',
             padding: 15,
             width: 200,
-            backgroundColor: '#4A55A2',
+            backgroundColor: 'purple',
             borderRadius: 6,
             alignSelf: 'center',
           }}>
