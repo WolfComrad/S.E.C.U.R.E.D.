@@ -1,20 +1,35 @@
 import React from 'react';
-import {useState} from 'react';
-import {Text, TextInput, View} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {Text, View, Pressable} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
-function HomeScreen() {
-  const [text, onChangeText] = useState('');
-
+const HomeScreen = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
   return (
-    <SafeAreaView>
-      <Text style={{fontSize: 17, fontWeight: '600', color: 'gray'}}>
-        Email
-      </Text>
-
-      <TextInput placeholder='type here' value={text} onChangeText={onChangeText}/>
-    </SafeAreaView>
+    <View>
+      <Text>This is our Home screen!</Text>
+      <View>
+        <Pressable
+          onPress={() => {
+            navigation.navigate('Login');
+          }}
+          style={{
+            marginTop: 50,
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            padding: 15,
+            width: 200,
+            backgroundColor: 'purple',
+            borderRadius: 6,
+            alignSelf: 'center',
+          }}>
+          <Text style={{fontSize: 16, color: 'white', textAlign: 'center'}}>
+            Back to Login!
+          </Text>
+        </Pressable>
+      </View>
+    </View>
   );
-}
+};
 
 export default HomeScreen;
