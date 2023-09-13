@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import {JACOBS_IP} from '../urls/url';
 import {
   ActivityIndicator,
   Alert,
