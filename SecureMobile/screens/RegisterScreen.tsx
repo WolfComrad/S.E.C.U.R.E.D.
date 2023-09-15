@@ -8,11 +8,12 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import {styles} from '../App';
+import {styles} from '../styles';
 import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack/lib/typescript/src/types';
 import {apiRoutes} from '../urls/routes/routes';
+import {Screens, screens} from './ScreenRoutes';
 
 function RegisterScreen() {
   const [userName, setUserName] = useState('');
@@ -27,7 +28,16 @@ function RegisterScreen() {
   const [checkValidPassword, setCheckValidPassword] = useState(true);
   const [checkValidPhoneNumber, setCheckValidPhoneNumber] = useState(true);
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigation<NativeStackNavigationProp<any>>();
+  const navigate = useNavigation<NativeStackNavigationProp<any, Screens>>();
+
+  const userDto = {
+    userName: userName,
+    firstName: firstName,
+    lastName: lastName,
+    password: password,
+    email: email,
+    phoneNumber: phoneNumber,
+  };
 
   const handleCheckPassword = (password: string) => {
     let re =
@@ -81,40 +91,36 @@ function RegisterScreen() {
 
   const handleRegister = async () => {
     setLoading(true);
-    const userDto = {
-      userName: userName,
-      firstName: firstName,
-      lastName: lastName,
-      password: password,
-      email: email,
-      phoneNumber: phoneNumber,
-    };
+
     console.log('pressed');
-    await axios
-      .post(apiRoutes.register, userDto)
-      .then(response => {
-        console.log(response.status);
-        Alert.alert(
-          ' Registration successful',
-          'You have been registered Successfully!',
-        );
+    const registerResponse = await axios.post(apiRoutes.register, userDto);
+
+    if (registerResponse.status === 200) {
+      console.log('registered');
+      console.log('logging in');
+      let username = userDto.userName;
+      let password = userDto.password;
+      const loginResponse = await axios.post(apiRoutes.login, {
+        username,
+        password,
+      });
+      if (loginResponse.status === 200) {
+        console.log('Login successful');
         setFirstName('');
         setLastName('');
         setUserName('');
         setEmail('');
         setPassword('');
         setPhoneNumber('');
+
         setLoading(false);
-        navigate.navigate('Login');
-      })
-      .catch(error => {
-        setLoading(false);
-        Alert.alert(
-          'Registration Error',
-          'An Error occurred while registering',
-        );
-        console.log('registration failed', error);
-      });
+        navigate.navigate(screens.home);
+      }
+    } else {
+      Alert.alert('error registering');
+      console.log(registerResponse.status);
+      setLoading(false);
+    }
   };
 
   return (

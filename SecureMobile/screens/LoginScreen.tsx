@@ -6,16 +6,17 @@ import {
   Alert,
   KeyboardAvoidingView,
   Pressable,
-  StyleSheet,
   Text,
   TextInput,
   View,
 } from 'react-native';
+import {styles} from '../styles';
 
 import axios from 'axios';
 //Base url for everyone's IP
 import {JACOBS_IP} from '../urls/url';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {screens} from './ScreenRoutes';
 
 const LoginScreen = () => {
   const [username, setUsername] = useState('');
@@ -30,25 +31,33 @@ const LoginScreen = () => {
     setLoading(true);
 
     //Login endpoint call
-    await axios
-      .post(apiRoutes.login, user)
-      .then(res => {
-        console.log(`Username: ${user.userName}`);
-        console.log(`Password: ${user.password}`);
-        console.log('Logged In');
-        setUsername('');
-        setPassword('');
-        navigation.navigate('Home');
-        setLoading(false);
-      })
-      .catch(error => {
-        Alert.alert('Login Error', 'An Error occurred while Logging In');
-        console.log(`Username: ${user.userName}`);
-        console.log(`Password: ${user.password}`);
-        console.log(error);
-        console.log('Not logged in :(');
-        setLoading(false);
-      });
+    const loginResponse = await axios.post(apiRoutes.login, user);
+    if (loginResponse.status === 200) {
+      setUsername('');
+      setPassword('');
+      setLoading(false);
+      navigation.navigate(screens.home);
+    } else {
+      setLoading(false);
+      Alert.alert('Login Error', 'An Error occurred while Loggin In');
+    }
+    // .then(res => {
+    //   console.log(`Username: ${user.userName}`);
+    //   console.log(`Password: ${user.password}`);
+    //   console.log('Logged In');
+    //   setUsername('');
+    //   setPassword('');
+    //   navigation.navigate(screens.home);
+    //   setLoading(false);
+    // })
+    // .catch(error => {
+    //   setLoading(false);
+    //   Alert.alert('Login Error', 'An Error occurred while Logging In');
+    //   console.log(`Username: ${user.userName}`);
+    //   console.log(`Password: ${user.password}`);
+    //   console.log(error);
+    //   console.log('Not logged in :(');
+    // });
   };
   return (
     <View style={styles.screenContainer}>
@@ -100,7 +109,7 @@ const LoginScreen = () => {
           </Pressable>
           {/*Signup Pressable Text*/}
           <Pressable
-            onPress={() => navigation.navigate('Register')}
+            onPress={() => navigation.navigate(screens.register)}
             style={{
               marginTop: 15,
             }}>
@@ -114,57 +123,3 @@ const LoginScreen = () => {
   );
 };
 export default LoginScreen;
-
-const styles = StyleSheet.create({
-  screenContainer: {
-    flex: 1,
-    backgroundColor: 'white',
-
-    padding: 10,
-    alignItems: 'center',
-  },
-  titleContainer: {
-    marginTop: 100,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  titleText: {
-    color: 'purple',
-    fontSize: 21,
-    fontWeight: '600',
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: 'gray',
-  },
-  input: {
-    fontSize: 17,
-    borderBottomColor: 'gray',
-    borderBottomWidth: 1,
-    marginVertical: 1,
-    width: 300,
-  },
-
-  loginButton: {
-    marginTop: 50,
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    padding: 15,
-    width: 200,
-    backgroundColor: 'purple',
-    borderRadius: 6,
-    alignSelf: 'center',
-  },
-  text: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: 'white',
-    textAlign: 'center',
-  },
-  signupText: {
-    textAlign: 'center',
-    color: 'gray',
-    fontSize: 16,
-  },
-});

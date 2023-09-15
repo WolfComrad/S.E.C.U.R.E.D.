@@ -19,21 +19,8 @@ const App = () => {
   );
 };
 
-export const styles = StyleSheet.create({
-  RegisterScreenStyle: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  FieldStyle: {
-    borderBottomColor: 'gray',
-    borderBottomWidth: 1,
-    marginVertical: 10,
-    width: 300,
-  },
+ const styles = StyleSheet.create({
+  
 });
 
 export default App;
