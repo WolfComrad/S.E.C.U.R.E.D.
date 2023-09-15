@@ -375,3 +375,16 @@ SecureMobile/android/.gradle/buildOutputCleanup
 SecureMobile/node_modules/@react-native/gradle-plugin/.gradle/8.0.1/executionHistory
 SecureMobile/android/.gradle
 SecureMobile/node_modules/@react-native/gradle-plugin
+SecureMobile/android/app/build/intermediates/incremental/debug-mergeJavaRes/zip-cache
+SecureMobile/android/app/build/outputs/apk/debug/app-debug.apk
+SecureMobile/android/app/build/outputs/logs/manifest-merger-debug-report.txt
+SecureMobile/android/app/build/intermediates/merged_java_res/debug/base.jar
+SecureMobile/android/app/build/intermediates/incremental/debug/mergeDebugResources/compile-file-map.properties
+SecureMobile/android/app/build/intermediates/incremental/debug/mergeDebugResources/merger.xml
+SecureMobile/android/app/build/intermediates/incremental/debug-mergeJavaRes
+SecureMobile/android/app/build/intermediates/incremental/mergeDebugAssets
+SecureMobile/android/app/build/intermediates/incremental/mergeDebugJniLibFolders
+SecureMobile/android/app/build/intermediates/incremental/mergeDebugShaders
+SecureMobile/android/app/build/intermediates/incremental/packageDebug/tmp/debug/zip-cache/javaResources0
+SecureMobile/android/app/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt
+SecureMobile/android/app/build/intermediates/source_set_path_map/debug/file-map.txt
