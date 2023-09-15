@@ -366,3 +366,12 @@ MigrationBackup/
 FodyWeavers.xsd
 .vs/S.E.C.U.R.E.D/v17
 .vs
+SecureMobile/android/.gradle/file-system.probe
+SecureMobile/android/.gradle/file-system.probe
+SecureMobile/android/.gradle/8.0.1/executionHistory/executionHistory.bin
+SecureMobile/android/.gradle/8.0.1/executionHistory
+SecureMobile/android/.gradle/8.0.1/fileHashes
+SecureMobile/android/.gradle/buildOutputCleanup
+SecureMobile/node_modules/@react-native/gradle-plugin/.gradle/8.0.1/executionHistory
+SecureMobile/android/.gradle
+SecureMobile/node_modules/@react-native/gradle-plugin
