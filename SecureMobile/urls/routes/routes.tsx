@@ -1,6 +1,7 @@
-import {JACOBS_IP} from '../url';
+import {JACOBS_IP, MARCOS_IP} from '../url';
+const IP = MARCOS_IP
 export const apiRoutes = {
-  login: `${JACOBS_IP}/api/Authorization/login/`,
-  register: `${JACOBS_IP}/api/Authorization/register`,
-  logout: `${JACOBS_IP}/api/Authorization/logout`,
+  login: `${IP}/api/Authorization/login/`,
+  register: `${IP}/api/Authorization/register`,
+  logout: `${IP}/api/Authorization/logout`,
 } as const;

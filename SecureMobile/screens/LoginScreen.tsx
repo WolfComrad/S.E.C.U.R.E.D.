@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {apiRoutes} from '../urls/routes/routes';
 import {
   ActivityIndicator,
@@ -22,6 +22,10 @@ const LoginScreen = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [checkUserName, setCheckUserName] = useState(true);
+  const [checkValidPassword, setCheckValidPassword] = useState(true);
+  const [loginPressed, setLoginPressed] = useState(false);
+  const [loginError, setLoginError] = useState(false);
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const user = {
     userName: username,
@@ -31,16 +35,31 @@ const LoginScreen = () => {
     setLoading(true);
 
     //Login endpoint call
-    const loginResponse = await axios.post(apiRoutes.login, user);
-    if (loginResponse.status === 200) {
-      setUsername('');
-      setPassword('');
-      setLoading(false);
-      navigation.navigate(screens.home);
-    } else {
-      setLoading(false);
-      Alert.alert('Login Error', 'An Error occurred while Loggin In');
-    }
+    axios
+      .post(apiRoutes.login, user)
+      .then(res => {
+        setUsername('');
+        setPassword('');
+        setLoading(false);
+        setLoginError(false);
+        navigation.navigate(screens.home);
+      })
+      .catch(error => {
+        setLoginPressed(true);
+        setLoginError(true);
+        setLoading(false);
+        Alert.alert('Login Error', 'An error occurred while logging In');
+      });
+    // const loginResponse = await axios.post(apiRoutes.login, user);
+    // if (loginResponse.status === 200) {
+    //   setUsername('');
+    //   setPassword('');
+    //   setLoading(false);
+    //   navigation.navigate(screens.home);
+    // } else {
+    //   setLoading(false);
+    //   Alert.alert('Login Error', 'An Error occurred while Loggin In');
+    // }
     // .then(res => {
     //   console.log(`Username: ${user.userName}`);
     //   console.log(`Password: ${user.password}`);
@@ -59,6 +78,27 @@ const LoginScreen = () => {
     //   console.log('Not logged in :(');
     // });
   };
+  //Constantly Rerendering Error Checking AFTER initial render
+  const firstRender = useRef(false);
+  useEffect(() => {
+    if (firstRender.current && loginPressed) {
+      handleCheckUserName();
+      handleCheckPassword();
+      setLoginError(false);
+    } else {
+      firstRender.current = true;
+    }
+  }, [username, password]);
+  const handleCheckUserName = () => {
+    username ? setCheckUserName(true) : setCheckUserName(false);
+    // console.log(`username? = ${checkUserName}`);
+  };
+  const handleCheckPassword = () => {
+    password ? setCheckValidPassword(true) : setCheckValidPassword(false);
+    // console.log(`password? = ${checkValidPassword}`);
+  };
+
+  //Component render
   return (
     <View style={styles.screenContainer}>
       {loading ? (
@@ -71,26 +111,43 @@ const LoginScreen = () => {
           <View style={styles.titleContainer}>
             <Text style={styles.titleText}>Login</Text>
           </View>
-          {/*Username and password prompts views*/}
+          {/*Username prompt view*/}
           <View style={{marginTop: 70}}>
             <View>
-              <Text style={styles.title}>Username</Text>
+              <View style={styles.promptTitleContainer}>
+                <Text style={styles.title}>Username</Text>
+                {!checkUserName && (
+                  <Text style={styles.promptErrorMessage}>
+                    Username field is empty
+                  </Text>
+                )}
+              </View>
+
               <TextInput
                 style={styles.input}
-                placeholderTextColor={'black'}
-                placeholder="Enter your username"
+                placeholderTextColor={'gray'}
+                placeholder="ex: JohnPringle"
                 value={username}
                 onChangeText={text => {
                   setUsername(text);
                 }}
               />
             </View>
+            {/*Password prompt view*/}
             <View style={{marginTop: 50}}>
-              <Text style={styles.title}>Password</Text>
+              <View style={styles.promptTitleContainer}>
+                <Text style={styles.title}>Password</Text>
+                {!checkValidPassword && (
+                  <Text style={styles.promptErrorMessage}>
+                    Password field is empty
+                  </Text>
+                )}
+              </View>
+
               <TextInput
                 style={styles.input}
-                placeholderTextColor={'black'}
-                placeholder="Your password goes here"
+                placeholderTextColor={'gray'}
+                placeholder="min 8. characters"
                 value={password}
                 secureTextEntry={true}
                 onChangeText={text => {
@@ -99,14 +156,27 @@ const LoginScreen = () => {
               />
             </View>
           </View>
-          {/*Login Button*/}
-          <Pressable
-            onPress={() => {
-              handleLogin();
-            }}
-            style={styles.loginButton}>
-            <Text style={styles.text}>Log In</Text>
-          </Pressable>
+          {/*Login Button and Error*/}
+          <View style={{marginTop: 10}}>
+            {loginError && (
+              <Text style={styles.loginErrorMessage}>
+                The username or password you entered is incorrect.
+              </Text>
+            )}
+            <Pressable
+              onPress={() => {
+                handleLogin();
+              }}
+              disabled={!checkUserName || !checkValidPassword ? true : false}
+              style={
+                !checkUserName || !checkValidPassword || loginError
+                  ? styles.disabledLoginButton
+                  : styles.loginButton
+              }>
+              <Text style={styles.text}>Log In</Text>
+            </Pressable>
+          </View>
+
           {/*Signup Pressable Text*/}
           <Pressable
             onPress={() => navigation.navigate(screens.register)}
