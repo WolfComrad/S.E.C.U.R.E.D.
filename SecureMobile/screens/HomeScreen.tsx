@@ -1,48 +1,37 @@
-import React, {useContext, useEffect, useLayoutEffect} from 'react';
+import React from 'react';
 import {Text, View, Pressable} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-
+import LogoutButton from '../components/LogoutButton';
 import {Screens, screens} from './ScreenRoutes';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {UserType} from '../UserContext';
-import {styles} from '../styles';
-import axios from 'axios';
-import { apiRoutes } from '../urls/routes/routes';
+
 const HomeScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any, Screens>>();
-  const {userId, setUserId} = useContext(UserType);
-
-  useEffect(() => {
-    const getUser = async () => {
-      const response = await axios.get(apiRoutes.whoami);
-      console.log(response.data);
-    } 
-   
-  getUser();
-    return () => {
-      
-    }
-  }, [])
-  
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerTitle: '',
-      headerLeft: () => (
-        <View style={{flexDirection: 'row', alignItems: 'center', gap: 8}}>
-          <Text style={styles.titleText}>Bullet Chat</Text>
-        </View>
-      ),
-      headerRight: () => (
-        <View style={{flexDirection: 'row', alignItems: 'center', gap: 8}}>
-          <Icon name="chat-outline" size={27} />
-          <Icon name="account-multiple-plus-outline" size={27} />
-        </View>
-      ),
-    });
-  }, []);
-  return <View></View>;
+  return (
+    <View>
+      <View>
+        <LogoutButton />
+        <Pressable
+          onPress={() => {
+            navigation.navigate(screens.login);
+          }}
+          style={{
+            marginTop: 50,
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            padding: 15,
+            width: 200,
+            backgroundColor: 'purple',
+            borderRadius: 6,
+            alignSelf: 'center',
+          }}>
+          <Text style={{fontSize: 16, color: 'white', textAlign: 'center'}}>
+            Back to Login!
+          </Text>
+        </Pressable>
+      </View>
+    </View>
+  );
 };
 
 export default HomeScreen;
