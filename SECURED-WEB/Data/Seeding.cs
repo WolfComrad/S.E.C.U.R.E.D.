@@ -37,7 +37,9 @@ public class Seeding
             LastName = "Dillon",
             UserName = "JakeSnake",
             Email = "jakesnake@gmail.com",
-            PhoneNumber = "9852888019"
+            PhoneNumber = "9852888019",
+            
+            
            
 
         };
