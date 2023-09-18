@@ -17,35 +17,15 @@ import axios from 'axios';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {screens} from './ScreenRoutes';
 import {Int32} from 'react-native/Libraries/Types/CodegenTypes';
-
-type UserDto = {
-  id: Int32;
-  firstName: string;
-  lastName: string;
-  phoneNumber: string;
-  userName: string;
-};
+import {UserDto} from '../types';
+import {useUser} from '../UserContext';
 
 const LoginScreen = () => {
-  useEffect(() => {
-    const checkLoginStatus = async () => {
-      try {
-        const token = await AsyncStorage.getItem('authToken');
-        if (token) {
-          console.log(`Auth token: ${token}`);
-          navigation.replace(screens.home);
-        } else {
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    checkLoginStatus();
-  }, []);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
+  const {login} = useUser();
   const user = {
     userName: username,
     password: password,
@@ -54,22 +34,39 @@ const LoginScreen = () => {
   const handleLogin = async () => {
     setLoading(true);
 
-    //Login endpoint call
-    const loginResponse = await axios.post<UserDto>(apiRoutes.login, user);
-    if (loginResponse.status === 200) {
-      console.log(loginResponse.data);
-      const token = loginResponse.data.id;
-      console.log(token);
-      AsyncStorage.setItem('authToken', token.toString());
-      setUsername('');
-      setPassword('');
-      setLoading(false);
-      navigation.navigate(screens.home);
-    } else {
-      setLoading(false);
-      Alert.alert('Login Error', 'An Error occurred while Loggin In');
+    try {
+      const loginResponse = await axios.post<UserDto>(apiRoutes.login, user);
+      if (loginResponse.status === 200) {
+        console.log(loginResponse.data);
+        const token = loginResponse.data.id;
+        login(token.toString());
+        console.log(token);
+        AsyncStorage.setItem('authToken', token.toString());
+        setUsername('');
+        setPassword('');
+        setLoading(false);
+        navigation.navigate(screens.home);
+      } else {
+        setLoading(false);
+        Alert.alert('Login Error', 'An Error occurred while Loggin In');
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
+  useEffect(() => {
+    setLoading(true);
+    const checkLoginStatus = async () => {
+      const token = await AsyncStorage.getItem('authToken');
+      if (token) {
+        console.log(`Auth token: ${token}`);
+        login(token.toString());
+        setLoading(false);
+        navigation.replace(screens.home);
+      }
+    };
+    checkLoginStatus();
+  }, []);
   return (
     <View style={styles.screenContainer}>
       {loading ? (
