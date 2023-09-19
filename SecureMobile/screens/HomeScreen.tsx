@@ -46,8 +46,9 @@ const HomeScreen = () => {
     });
   }, []);
   return (
-    <View>
+    <View style= {styles.RegisterScreenStyle}>
       <Text style={styles.title}>Welcome {userName}</Text>
+      <Text style={styles.title}>Add Some Friends</Text>
     </View>
   );
 };

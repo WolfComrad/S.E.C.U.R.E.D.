@@ -63,6 +63,9 @@ const LoginScreen = () => {
         login(token.toString());
         setLoading(false);
         navigation.replace(screens.home);
+      } else {
+        setLoading(false);
+        return;
       }
     };
     checkLoginStatus();

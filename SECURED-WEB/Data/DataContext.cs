@@ -10,6 +10,7 @@ public class DataContext : IdentityDbContext<User, IdentityRole<int>, int, Ident
 {
     public DbSet<Message> Messages { get; set; }
     public DbSet<FriendRequest> FriendRequest { get; set; }
+    public DbSet<User> Users { get; set; }
     public DataContext (DbContextOptions<DataContext> options) : base(options)
     {
 
@@ -47,7 +48,15 @@ public class DataContext : IdentityDbContext<User, IdentityRole<int>, int, Ident
         modelBuilder.Entity<User>()
             .HasMany(u => u.Friends)
             .WithMany()
-            .UsingEntity(j => j.ToTable("UserFriends"));
+            .UsingEntity<Dictionary<string, object>>(
+                "UserFriends", // Name of the join table
+                j => j.HasOne<User>().WithMany().HasForeignKey("UserId"),
+                j => j.HasOne<User>().WithMany().HasForeignKey("FriendId"),
+                j =>
+                {
+                    j.HasKey("UserId", "FriendId"); // Composite primary key
+                    j.ToTable("UserFriends"); // Name of the join table
+                });
 
         // Other configurations and mappings can go here
 
