@@ -9,6 +9,7 @@ import axios from 'axios';
 import {apiRoutes} from '../urls/routes/routes';
 import {UserDto} from '../types';
 import {useUser} from '../UserContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const HomeScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any, Screens>>();
   const {userId, setUserId} = useUser();
@@ -35,10 +36,10 @@ const HomeScreen = () => {
       ),
       headerRight: () => (
         <View style={{flexDirection: 'row', alignItems: 'center', gap: 8}}>
-          <Pressable onPress={() => console.log('chatscreen')}>
+          <Pressable onPress={() => navigation.navigate('Chats')}>
             <Icon name="chat-outline" size={27} />
           </Pressable>
-          <Pressable onPress={() => console.log('add Friends')}>
+          <Pressable onPress={() => navigation.navigate('FriendRequest')}>
             <Icon name="account-multiple-plus-outline" size={27} />
           </Pressable>
         </View>
@@ -46,7 +47,7 @@ const HomeScreen = () => {
     });
   }, []);
   return (
-    <View style= {styles.RegisterScreenStyle}>
+    <View style={styles.RegisterScreenStyle}>
       <Text style={styles.title}>Welcome {userName}</Text>
       <Text style={styles.title}>Add Some Friends</Text>
     </View>

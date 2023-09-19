@@ -16,7 +16,6 @@ import axios from 'axios';
 //Base url for everyone's IP
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {screens} from './ScreenRoutes';
-import {Int32} from 'react-native/Libraries/Types/CodegenTypes';
 import {UserDto} from '../types';
 import {useUser} from '../UserContext';
 
@@ -38,22 +37,24 @@ const LoginScreen = () => {
       const loginResponse = await axios.post<UserDto>(apiRoutes.login, user);
       if (loginResponse.status === 200) {
         console.log(loginResponse.data);
-        const token = loginResponse.data.id;
+        let token = loginResponse.data.id;
         login(token.toString());
         console.log(token);
         AsyncStorage.setItem('authToken', token.toString());
         setUsername('');
         setPassword('');
+        navigation.replace(screens.home);
         setLoading(false);
-        navigation.navigate(screens.home);
       } else {
         setLoading(false);
         Alert.alert('Login Error', 'An Error occurred while Loggin In');
       }
     } catch (error) {
+      Alert.alert('Login Error', 'An Error occurred while Loggin In');
       console.log(error);
     }
   };
+
   useEffect(() => {
     setLoading(true);
     const checkLoginStatus = async () => {
@@ -65,6 +66,7 @@ const LoginScreen = () => {
         navigation.replace(screens.home);
       } else {
         setLoading(false);
+        console.log(token?.toString());
         return;
       }
     };

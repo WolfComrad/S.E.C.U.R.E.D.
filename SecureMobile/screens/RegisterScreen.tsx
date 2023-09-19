@@ -14,6 +14,9 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack/lib/typescript/src/types';
 import {apiRoutes} from '../urls/routes/routes';
 import {Screens, screens} from './ScreenRoutes';
+import {useUser} from '../UserContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {UserDto} from '../types';
 
 function RegisterScreen() {
   const [userName, setUserName] = useState('');
@@ -28,6 +31,7 @@ function RegisterScreen() {
   const [checkValidPassword, setCheckValidPassword] = useState(true);
   const [checkValidPhoneNumber, setCheckValidPhoneNumber] = useState(true);
   const [loading, setLoading] = useState(false);
+  const {userId, login} = useUser();
   const navigate = useNavigation<NativeStackNavigationProp<any, Screens>>();
 
   const userDto = {
@@ -90,36 +94,46 @@ function RegisterScreen() {
   };
 
   const handleRegister = async () => {
-    setLoading(true);
+    try {
+      setLoading(true);
+      const registerResponse = await axios.post<UserDto>(
+        apiRoutes.register,
+        userDto,
+      );
 
-    console.log('pressed');
-    const registerResponse = await axios.post(apiRoutes.register, userDto);
+      if (registerResponse.status === 200) {
+        console.log('registered');
+        console.log('logging in');
 
-    if (registerResponse.status === 200) {
-      console.log('registered');
-      console.log('logging in');
-      let username = userDto.userName;
-      let password = userDto.password;
-      const loginResponse = await axios.post(apiRoutes.login, {
-        username,
-        password,
-      });
-      if (loginResponse.status === 200) {
-        console.log('Login successful');
-        setFirstName('');
-        setLastName('');
-        setUserName('');
-        setEmail('');
-        setPassword('');
-        setPhoneNumber('');
+        let username = userDto.userName;
+        let password = userDto.password;
+        const loginResponse = await axios.post(apiRoutes.login, {
+          username,
+          password,
+        });
+        AsyncStorage.setItem('authToken', loginResponse.data.id);
+        if (loginResponse.status === 200) {
+          console.log('Login successful');
+          console.log(loginResponse.data);
+          login(loginResponse.data.id);
 
+          setFirstName('');
+          setLastName('');
+          setUserName('');
+          setEmail('');
+          setPassword('');
+          setPhoneNumber('');
+          setLoading(false);
+          navigate.navigate(screens.home);
+        }
+      } else {
+        Alert.alert('error registering');
+        console.log(registerResponse.status);
         setLoading(false);
-        navigate.navigate(screens.home);
       }
-    } else {
-      Alert.alert('error registering');
-      console.log(registerResponse.status);
+    } catch (error) {
       setLoading(false);
+      console.log(error);
     }
   };
 
