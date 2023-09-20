@@ -1,50 +1,5 @@
 import {StyleSheet} from 'react-native';
 export const styles = StyleSheet.create({
-  centeredView: {
-    alignItems: 'flex-end',
-  },
-  modalView: {
-    flex: 1,
-    justifyContent: 'center',
-    margin: 20,
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 30,
-    alignItems: 'flex-end',
-    shadowColor: '#000',
-    height: 100,
-    width: 100,
-    shadowOffset: {
-      width: 2,
-      height: 12,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  menuButton: {
-    backgroundColor: 'gray',
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-  },
-  button: {
-    backgroundColor: 'blue',
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-  },
-
-  textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: 'right',
-    color: 'black',
-  },
   RegisterScreenStyle: {
     justifyContent: 'center',
     alignItems: 'center',
