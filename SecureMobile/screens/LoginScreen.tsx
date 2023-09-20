@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useEffect, useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import {apiRoutes} from '../urls/routes/routes';
 import {
   ActivityIndicator,
@@ -29,7 +29,6 @@ const LoginScreen = () => {
     userName: username,
     password: password,
   };
-
   const handleLogin = async () => {
     setLoading(true);
 
