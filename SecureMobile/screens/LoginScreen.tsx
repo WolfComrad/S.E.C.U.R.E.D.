@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import {apiRoutes} from '../urls/routes/routes';
 import {
   ActivityIndicator,
@@ -11,18 +11,20 @@ import {
   View,
 } from 'react-native';
 import {styles} from '../styles';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 //Base url for everyone's IP
-import {JACOBS_IP} from '../urls/url';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {screens} from './ScreenRoutes';
+import {UserDto} from '../types';
+import {useUser} from '../UserContext';
 
 const LoginScreen = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
+  const {login} = useUser();
   const user = {
     userName: username,
     password: password,
@@ -30,35 +32,45 @@ const LoginScreen = () => {
   const handleLogin = async () => {
     setLoading(true);
 
-    //Login endpoint call
-    const loginResponse = await axios.post(apiRoutes.login, user);
-    if (loginResponse.status === 200) {
-      setUsername('');
-      setPassword('');
-      setLoading(false);
-      navigation.navigate(screens.home);
-    } else {
-      setLoading(false);
+    try {
+      const loginResponse = await axios.post<UserDto>(apiRoutes.login, user);
+      if (loginResponse.status === 200) {
+        console.log(loginResponse.data);
+        let token = loginResponse.data.id;
+        login(token.toString());
+        console.log(token);
+        AsyncStorage.setItem('authToken', token.toString());
+        setUsername('');
+        setPassword('');
+        navigation.replace(screens.home);
+        setLoading(false);
+      } else {
+        setLoading(false);
+        Alert.alert('Login Error', 'An Error occurred while Loggin In');
+      }
+    } catch (error) {
       Alert.alert('Login Error', 'An Error occurred while Loggin In');
+      console.log(error);
     }
-    // .then(res => {
-    //   console.log(`Username: ${user.userName}`);
-    //   console.log(`Password: ${user.password}`);
-    //   console.log('Logged In');
-    //   setUsername('');
-    //   setPassword('');
-    //   navigation.navigate(screens.home);
-    //   setLoading(false);
-    // })
-    // .catch(error => {
-    //   setLoading(false);
-    //   Alert.alert('Login Error', 'An Error occurred while Logging In');
-    //   console.log(`Username: ${user.userName}`);
-    //   console.log(`Password: ${user.password}`);
-    //   console.log(error);
-    //   console.log('Not logged in :(');
-    // });
   };
+
+  useEffect(() => {
+    setLoading(true);
+    const checkLoginStatus = async () => {
+      const token = await AsyncStorage.getItem('authToken');
+      if (token) {
+        console.log(`Auth token: ${token}`);
+        login(token.toString());
+        setLoading(false);
+        navigation.replace(screens.home);
+      } else {
+        setLoading(false);
+        console.log(token?.toString());
+        return;
+      }
+    };
+    checkLoginStatus();
+  }, []);
   return (
     <View style={styles.screenContainer}>
       {loading ? (

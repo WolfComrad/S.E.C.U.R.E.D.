@@ -6,21 +6,19 @@
  */
 
 import React from 'react';
-import {StyleSheet} from 'react-native';
 
 import StackNavigator from './StackNavigator';
 import {NavigationContainer} from '@react-navigation/native';
+import {UserContext} from './UserContext';
 
 const App = () => {
   return (
     <NavigationContainer>
-      <StackNavigator />
+      <UserContext>
+        <StackNavigator />
+      </UserContext>
     </NavigationContainer>
   );
 };
-
- const styles = StyleSheet.create({
-  
-});
 
 export default App;

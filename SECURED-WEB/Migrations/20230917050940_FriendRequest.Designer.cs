@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SECURED_WEB.Data;
 
@@ -11,9 +12,11 @@ using SECURED_WEB.Data;
 namespace SECURED_WEB.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230917050940_FriendRequest")]
+    partial class FriendRequest
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -294,17 +297,17 @@ namespace SECURED_WEB.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("UserFriends", b =>
+            modelBuilder.Entity("UserUser", b =>
                 {
+                    b.Property<int>("FriendsId")
+                        .HasColumnType("int");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<int>("FriendId")
-                        .HasColumnType("int");
+                    b.HasKey("FriendsId", "UserId");
 
-                    b.HasKey("UserId", "FriendId");
-
-                    b.HasIndex("FriendId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("UserFriends", (string)null);
                 });
@@ -398,18 +401,18 @@ namespace SECURED_WEB.Migrations
                     b.Navigation("Sender");
                 });
 
-            modelBuilder.Entity("UserFriends", b =>
+            modelBuilder.Entity("UserUser", b =>
                 {
                     b.HasOne("SECURED_WEB.Entities.User", null)
                         .WithMany()
-                        .HasForeignKey("FriendId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .HasForeignKey("FriendsId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("SECURED_WEB.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
                 });
 
