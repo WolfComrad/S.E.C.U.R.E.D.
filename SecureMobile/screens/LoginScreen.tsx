@@ -35,27 +35,50 @@ const LoginScreen = () => {
   };
   const handleLogin = async () => {
     setLoading(true);
-
-    try {
-      const loginResponse = await axios.post<UserDto>(apiRoutes.login, user);
-      if (loginResponse.status === 200) {
-        console.log(loginResponse.data);
-        let token = loginResponse.data.id;
+    axios
+      .post<UserDto>(apiRoutes.login, user)
+      .then(res => {
+        
+        console.log(res.data.id);
+        let token = res.data.id;
         login(token.toString());
         console.log(token);
         AsyncStorage.setItem('authToken', token.toString());
         setUsername('');
         setPassword('');
+        setLoading(false);
+        setLoginError(false); 
         navigation.replace(screens.home);
+      })
+      .catch(error => {
+        setLoginPressed(true);
+        setLoginError(true);
         setLoading(false);
-      } else {
-        setLoading(false);
-        Alert.alert('Login Error', 'An Error occurred while Loggin In');
-      }
-    } catch (error) {
-      Alert.alert('Login Error', 'An Error occurred while Loggin In');
-      console.log(error);
-    }
+        Alert.alert('Login Error', 'An error occurred while logging In');
+        console.log('Username: ', user.userName, '\nPassword: ', user.password);
+        console.log(error);
+      });
+
+    // try {
+    //   const loginResponse = await axios.post<UserDto>(apiRoutes.login, user);
+    //   if (loginResponse.status === 200) {
+    //     console.log(loginResponse.data);
+    //     let token = loginResponse.data.id;
+    //     login(token.toString());
+    //     console.log(token);
+    //     AsyncStorage.setItem('authToken', token.toString());
+    //     setUsername('');
+    //     setPassword('');
+    //     navigation.replace(screens.home);
+    //     setLoading(false);
+    //   } else {
+    //     setLoading(false);
+    //     Alert.alert('Login Error', 'An Error occurred while Loggin In');
+    //   }
+    // } catch (error) {
+    //   Alert.alert('Login Error', 'An Error occurred while Loggin In');
+    //   console.log(error);
+    // }
   };
 
   useEffect(() => {
@@ -75,52 +98,10 @@ const LoginScreen = () => {
     };
     checkLoginStatus();
   }, []);
-    //Login endpoint call
-    axios
-      .post(apiRoutes.login, user)
-      .then(res => {
-        setUsername('');
-        setPassword('');
-        setLoading(false);
-        setLoginError(false);
-        navigation.navigate(screens.home);
-      })
-      .catch(error => {
-        setLoginPressed(true);
-        setLoginError(true);
-        setLoading(false);
-        Alert.alert('Login Error', 'An error occurred while logging In');
-      });
-    // const loginResponse = await axios.post(apiRoutes.login, user);
-    // if (loginResponse.status === 200) {
-    //   setUsername('');
-    //   setPassword('');
-    //   setLoading(false);
-    //   navigation.navigate(screens.home);
-    // } else {
-    //   setLoading(false);
-    //   Alert.alert('Login Error', 'An Error occurred while Loggin In');
-    // }
-    // .then(res => {
-    //   console.log(`Username: ${user.userName}`);
-    //   console.log(`Password: ${user.password}`);
-    //   console.log('Logged In');
-    //   setUsername('');
-    //   setPassword('');
-    //   navigation.navigate(screens.home);
-    //   setLoading(false);
-    // })
-    // .catch(error => {
-    //   setLoading(false);
-    //   Alert.alert('Login Error', 'An Error occurred while Logging In');
-    //   console.log(`Username: ${user.userName}`);
-    //   console.log(`Password: ${user.password}`);
-    //   console.log(error);
-    //   console.log('Not logged in :(');
-    // });
-  };
+
   //Constantly Rerendering Error Checking AFTER initial render
   const firstRender = useRef(false);
+
   useEffect(() => {
     if (firstRender.current && loginPressed) {
       handleCheckUserName();
