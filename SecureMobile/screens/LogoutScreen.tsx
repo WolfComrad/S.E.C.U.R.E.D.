@@ -1,14 +1,33 @@
-import {View, Text, Pressable, Alert, ActivityIndicator} from 'react-native';
-import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  Pressable,
+  Alert,
+  ActivityIndicator,
+  Image,
+} from 'react-native';
+import React, {useLayoutEffect, useState} from 'react';
 import axios from 'axios';
 import {apiRoutes} from '../urls/routes/routes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {Screens, screens} from './ScreenRoutes';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 const LogoutScreen = () => {
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation<NativeStackNavigationProp<any, Screens>>();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: () => (
+        <View>
+          <Text style={{fontSize: 20}}>Logout</Text>
+        </View>
+      ),
+    });
+  }, []);
+
   const handleLogout = async () => {
     setLoading(true);
     const response = await axios.post(apiRoutes.logout);
@@ -19,7 +38,7 @@ const LogoutScreen = () => {
     console.log(response.status);
     await AsyncStorage.removeItem('authToken');
     setLoading(false);
-    navigation.navigate(screens.login);
+    navigation.replace(screens.login);
   };
   return (
     <View>

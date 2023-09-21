@@ -8,7 +8,7 @@ const User = (item: UserDto) => {
     <Pressable style={{flexDirection: 'row', alignItems: 'center'}}>
       <View>
         <Image
-          style={{width: 50, height: 50, borderRadius: 25}}
+          style={{width: 50, height: 50, borderRadius: 25,margin:10}}
           source={require('../assets/tux.jpg')}
         />
       </View>

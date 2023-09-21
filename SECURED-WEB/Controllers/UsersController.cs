@@ -38,9 +38,9 @@ public class UsersController : ControllerBase
 
     }
 
-    [HttpGet("{userId}/friends")]
+    [HttpGet("friends/{userId}")]
     [Authorize]
-    public async Task<ActionResult<IQueryable<UserDto>>> GetFriends(int userId)
+    public  ActionResult<IQueryable<UserDto>> GetFriends(int userId)
     {
         // Retrieve the user by ID
         var user = dataContext.Users

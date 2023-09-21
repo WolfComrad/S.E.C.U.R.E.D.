@@ -1,8 +1,8 @@
 import React, {useEffect, useLayoutEffect, useState} from 'react';
-import {View, Pressable, Image} from 'react-native';
+import {View, Pressable, Image, TextInput} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {Screens} from './ScreenRoutes';
+import {Screens, screens} from './ScreenRoutes';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import axios from 'axios';
 import {apiRoutes} from '../urls/routes/routes';
@@ -39,8 +39,9 @@ const HomeScreen = () => {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: '',
+
       headerLeft: () => (
-        <Pressable onPress={() => navigation.navigate('Logout')}>
+        <Pressable onPress={() => navigation.navigate(screens.logout)}>
           <Image
             style={{
               width: 60,
@@ -53,11 +54,14 @@ const HomeScreen = () => {
       ),
       headerRight: () => (
         <View style={{flexDirection: 'row', alignItems: 'center', gap: 8}}>
-          <Pressable onPress={() => navigation.navigate('Chats')}>
-            <Icon name="chat-outline" size={27} />
+          <Pressable onPress={() => navigation.navigate(screens.chats)}>
+            <Icon name="chat-plus-outline" size={27} color={'#be89f0'} />
           </Pressable>
-          <Pressable onPress={() => navigation.navigate('FriendRequest')}>
-            <Icon name="account-multiple-plus-outline" size={27} />
+          <Pressable onPress={() => navigation.navigate(screens.friend)}>
+            <Icon name="account-multiple" size={27} color={'#be89f0'} />
+          </Pressable>
+          <Pressable onPress={() => navigation.navigate(screens.friendRequest)}>
+            <Icon name="account-question-outline" size={27} color={'#be89f0'} />
           </Pressable>
         </View>
       ),
