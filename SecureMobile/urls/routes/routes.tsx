@@ -4,4 +4,5 @@ export const apiRoutes = {
   register: `${JACOBS_IP}/api/Authorization/register`,
   logout: `${JACOBS_IP}/api/Authorization/logout`,
   whoami: `${JACOBS_IP}/api/Authorization/whoami`,
+  fetchUsers: `${JACOBS_IP}/api/Users/getusers`,
 } as const;

@@ -5,12 +5,12 @@ import LoginScreen from './screens/LoginScreen';
 import HomeScreen from './screens/HomeScreen';
 import ChatsScreen from './screens/ChatsScreen';
 import FriendRequestScreen from './screens/FriendRequestScreen';
+import LogoutScreen from './screens/LogoutScreen';
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
   return (
     <Stack.Navigator>
-      
       <Stack.Screen
         name="Login"
         component={LoginScreen}
@@ -32,6 +32,7 @@ const StackNavigator = () => {
         component={FriendRequestScreen}
         options={{headerShown: true}}
       />
+      <Stack.Screen name="Logout" component={LogoutScreen} />
     </Stack.Navigator>
   );
 };
