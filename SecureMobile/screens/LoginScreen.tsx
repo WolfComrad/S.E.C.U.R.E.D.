@@ -11,12 +11,13 @@ import {
   View,
 } from 'react-native';
 import {styles} from '../styles';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 //Base url for everyone's IP
-import {JACOBS_IP} from '../urls/url';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {screens} from './ScreenRoutes';
+import {UserDto} from '../types';
+import {useUser} from '../UserContext';
 
 const LoginScreen = () => {
   const [username, setUsername] = useState('');
@@ -27,6 +28,7 @@ const LoginScreen = () => {
   const [loginPressed, setLoginPressed] = useState(false);
   const [loginError, setLoginError] = useState(false);
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
+  const {login} = useUser();
   const user = {
     userName: username,
     password: password,
@@ -34,6 +36,45 @@ const LoginScreen = () => {
   const handleLogin = async () => {
     setLoading(true);
 
+    try {
+      const loginResponse = await axios.post<UserDto>(apiRoutes.login, user);
+      if (loginResponse.status === 200) {
+        console.log(loginResponse.data);
+        let token = loginResponse.data.id;
+        login(token.toString());
+        console.log(token);
+        AsyncStorage.setItem('authToken', token.toString());
+        setUsername('');
+        setPassword('');
+        navigation.replace(screens.home);
+        setLoading(false);
+      } else {
+        setLoading(false);
+        Alert.alert('Login Error', 'An Error occurred while Loggin In');
+      }
+    } catch (error) {
+      Alert.alert('Login Error', 'An Error occurred while Loggin In');
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    setLoading(true);
+    const checkLoginStatus = async () => {
+      const token = await AsyncStorage.getItem('authToken');
+      if (token) {
+        console.log(`Auth token: ${token}`);
+        login(token.toString());
+        setLoading(false);
+        navigation.replace(screens.home);
+      } else {
+        setLoading(false);
+        console.log(token?.toString());
+        return;
+      }
+    };
+    checkLoginStatus();
+  }, []);
     //Login endpoint call
     axios
       .post(apiRoutes.login, user)

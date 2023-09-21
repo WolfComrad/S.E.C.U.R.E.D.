@@ -110,19 +110,60 @@ namespace SECURED_WEB.Controllers
             return Ok(userDto);
         }
 
-        
+        private static IQueryable<FriendRequestDto> ToFriendRequestDtos(IQueryable<FriendRequest> messages)
+        {
+            return messages.Select(x => new FriendRequestDto
+            {
+                Id = x.Id,
+                UserName = x.UserName,
+                ReceiverId = x.ReceiverId,
+                SenderId = x.SenderId,
+
+
+            });
+        }
+
         private static IQueryable<UserDto> ToUserDto(IQueryable<User> users)
         {
             return users.Select(x => new UserDto
-            {   
+            {
                 Id = x.Id,
                 FirstName = x.FirstName,
                 LastName = x.LastName,
                 UserName = x.UserName,
                 Email = x.Email,
-                PhoneNumber = x.PhoneNumber
+                PhoneNumber = x.PhoneNumber,
+                SentFriendRequest = x.SentFriendRequests.Select(x => new FriendRequestDto
+                {
+                    Id = x.Id,
+                    SenderId = x.SenderId,
+                    UserName = x.UserName,
+                    ReceiverId = x.ReceiverId,
+                }).ToList(),
 
-            });
+                ReceivedFriendRequest = x.ReceivedFriendRequests.Select(x => new FriendRequestDto
+                {
+                    Id = x.Id,
+                    SenderId = x.SenderId,
+                    UserName = x.UserName,
+                    ReceiverId = x.ReceiverId,
+                }).ToList(),
+                Friends = x.Friends.Select(x => new UserDto
+                {   Id = x.Id,
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
+                    UserName = x.UserName,
+                    Email = x.Email,
+                    PhoneNumber = x.PhoneNumber,
+
+
+                }).ToList()
+
+
+
+
+
+            }) ;
         }
     }
 }
