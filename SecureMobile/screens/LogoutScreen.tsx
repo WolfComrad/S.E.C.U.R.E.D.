@@ -13,20 +13,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {Screens, screens} from './ScreenRoutes';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {styles} from '../styles';
 const LogoutScreen = () => {
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation<NativeStackNavigationProp<any, Screens>>();
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerTitle: () => (
-        <View>
-          <Text style={{fontSize: 20}}>Logout</Text>
-        </View>
-      ),
-    });
-  }, []);
 
   const handleLogout = async () => {
     setLoading(true);
@@ -41,7 +31,7 @@ const LogoutScreen = () => {
     navigation.replace(screens.login);
   };
   return (
-    <View>
+    <View style={styles.screenContainer}>
       {loading ? (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <ActivityIndicator size={'large'} />

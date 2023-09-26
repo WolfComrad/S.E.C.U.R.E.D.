@@ -4,6 +4,7 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {Screens, screens} from './ScreenRoutes';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import DiffIcon from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
 import {apiRoutes} from '../urls/routes/routes';
 import {UserDto} from '../types';
@@ -58,10 +59,10 @@ const HomeScreen = () => {
             <Icon name="chat-plus-outline" size={27} color={'#be89f0'} />
           </Pressable>
           <Pressable onPress={() => navigation.navigate(screens.friend)}>
-            <Icon name="account-multiple" size={27} color={'#be89f0'} />
+            <Icon name="account-group" size={27} color={'#be89f0'} />
           </Pressable>
           <Pressable onPress={() => navigation.navigate(screens.friendRequest)}>
-            <Icon name="account-question-outline" size={27} color={'#be89f0'} />
+            <Icon name="account-details" size={27} color={'#be89f0'} />
           </Pressable>
         </View>
       ),
@@ -69,7 +70,7 @@ const HomeScreen = () => {
   }, []);
   return (
     <View style={{flex: 1}}>
-      <ScrollView style={{}}>
+      <ScrollView>
         {users.map((value, index) => (
           <View key={index}>
             <User

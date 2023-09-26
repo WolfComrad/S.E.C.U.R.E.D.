@@ -10,6 +10,6 @@ export const screens = {
     friendRequest: 'FriendRequest',
 } as const;
 
-export type Screens = 'Home' | 'Login' | 'Register | Logout | Chats | FriendRequest | Screens';
+export type Screens = 'Home' | 'Login' | 'Register' | 'Logout' | 'Chats' | 'FriendRequest' | 'Screens';
 
 

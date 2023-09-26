@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useState,useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {apiRoutes} from '../urls/routes/routes';
 import {
   ActivityIndicator,
@@ -13,7 +13,6 @@ import {
 import {styles} from '../styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-//Base url for everyone's IP
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {screens} from './ScreenRoutes';
 import {UserDto} from '../types';
@@ -51,7 +50,9 @@ const LoginScreen = () => {
     } catch (error) {
       Alert.alert('Login Error', 'An Error occurred while Loggin In');
       console.log(error);
+      setLoading(false);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -65,7 +66,6 @@ const LoginScreen = () => {
         navigation.replace(screens.home);
       } else {
         setLoading(false);
-        console.log(token?.toString());
         return;
       }
     };

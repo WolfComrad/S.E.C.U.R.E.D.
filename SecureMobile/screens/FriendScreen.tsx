@@ -1,4 +1,4 @@
-import {View, Text, Alert, Pressable} from 'react-native';
+import {View, Text, Alert, Pressable, ScrollView} from 'react-native';
 import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import axios from 'axios';
@@ -8,6 +8,7 @@ import {UserDto} from '../types';
 import {apiRoutes} from '../urls/routes/routes';
 import {Screens} from './ScreenRoutes';
 import {styles} from '../styles';
+import Friend from '../components/Friend';
 
 const FriendScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any, Screens>>();
@@ -41,14 +42,21 @@ const FriendScreen = () => {
   }, []);
 
   return (
-    <View style={styles.RegisterScreenStyle}>
-      <Pressable>
-        <Text>
-          {friends.map((value, index) => (
-            <Text key={index}>{value.userName}</Text>
-          ))}
-        </Text>
-      </Pressable>
+    <View>
+      <ScrollView>
+        {friends.map((value, index) => (
+          <View key={index}>
+            <Friend
+              userName={value.userName}
+              id={value.id}
+              firstName={value.firstName}
+              lastName={value.lastName}
+              phoneNumber={value.phoneNumber}
+              email={value.email}
+            />
+          </View>
+        ))}
+      </ScrollView>
     </View>
   );
 };
