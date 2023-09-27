@@ -10,7 +10,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import {styles} from '../styles';
+import {styles} from '../styles/styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 //Base url for everyone's IP

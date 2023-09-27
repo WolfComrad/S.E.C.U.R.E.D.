@@ -8,7 +8,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import {styles} from '../styles';
+import {styles} from '../styles/styles';
 import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack/lib/typescript/src/types';
