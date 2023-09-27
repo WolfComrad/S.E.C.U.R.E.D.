@@ -23,14 +23,14 @@ public class UsersController : ControllerBase
         this.userManager = userManager;
     }
 
-    [HttpGet]
+    [HttpGet("getusers")]
     [Authorize]
-    public async Task<ActionResult<IQueryable<UserDto>>> GetOtherUsers(int id)
-    {
+    public async Task<ActionResult<IQueryable<UserDto>>> GetOtherUsers()
+        { 
         var currentUser = await userManager.GetUserAsync(User);
         var users =  userManager.Users;
-        users = users.Where(x => x.Id != id);
-        var friends = currentUser.Friends;
+        users = users.Where(x => x.Id != currentUser.Id);
+       
 
        
 
@@ -38,9 +38,9 @@ public class UsersController : ControllerBase
 
     }
 
-    [HttpGet("{userId}/friends")]
+    [HttpGet("friends/{userId}")]
     [Authorize]
-    public async Task<ActionResult<IQueryable<UserDto>>> GetFriends(int userId)
+    public  ActionResult<IQueryable<UserDto>> GetFriends(int userId)
     {
         // Retrieve the user by ID
         var user = dataContext.Users

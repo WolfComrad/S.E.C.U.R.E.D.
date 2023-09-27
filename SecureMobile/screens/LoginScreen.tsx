@@ -13,7 +13,6 @@ import {
 import {styles} from '../styles/styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-//Base url for everyone's IP
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {screens} from './ScreenRoutes';
 import {UserDto} from '../types';
@@ -92,7 +91,6 @@ const LoginScreen = () => {
         navigation.replace(screens.home);
       } else {
         setLoading(false);
-        console.log(token?.toString());
         return;
       }
     };

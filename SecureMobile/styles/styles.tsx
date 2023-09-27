@@ -1,5 +1,36 @@
 import {StyleSheet} from 'react-native';
 export const styles = StyleSheet.create({
+  ImageStyle: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    margin: 10,
+  },
+
+  SimpleFlexStyle: {
+    flex: 1,
+  },
+  FriendNameStyle: {
+    fontSize: 14,
+    color: 'black',
+  },
+
+  UserCardStyle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+
+  SimpleTextStyle: {
+    color: 'white',
+  },
+
+  FriendButtonStyle: {
+    backgroundColor: 'purple',
+    padding: 8,
+    borderRadius: 15,
+    margin: 10,
+  },
+
   RegisterScreenStyle: {
     justifyContent: 'center',
     alignItems: 'center',

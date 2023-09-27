@@ -31,7 +31,7 @@ function RegisterScreen() {
   const [checkValidPassword, setCheckValidPassword] = useState(true);
   const [checkValidPhoneNumber, setCheckValidPhoneNumber] = useState(true);
   const [loading, setLoading] = useState(false);
-  const {userId, login} = useUser();
+  const {login} = useUser();
   const navigate = useNavigation<NativeStackNavigationProp<any, Screens>>();
 
   const userDto = {
