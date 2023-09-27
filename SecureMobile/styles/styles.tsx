@@ -63,10 +63,25 @@ export const styles = StyleSheet.create({
     fontSize: 21,
     fontWeight: '600',
   },
+  promptTitleContainer: {
+    flexDirection: 'row',
+  },
   title: {
     fontSize: 18,
     fontWeight: '600',
     color: 'gray',
+  },
+  promptErrorMessage: {
+    color: 'red',
+    fontSize: 16,
+    fontWeight: '400',
+    marginLeft: 10,
+    marginTop: 2,
+  },
+  loginErrorMessage: {
+    color: 'red',
+    fontSize: 16,
+    fontWeight: '400',
   },
   input: {
     fontSize: 17,
@@ -77,7 +92,7 @@ export const styles = StyleSheet.create({
   },
 
   loginButton: {
-    marginTop: 50,
+    marginTop: 40,
     marginLeft: 'auto',
     marginRight: 'auto',
     padding: 15,
@@ -86,6 +101,18 @@ export const styles = StyleSheet.create({
     borderRadius: 6,
     alignSelf: 'center',
   },
+
+  disabledLoginButton: {
+    marginTop: 40,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    padding: 15,
+    width: 200,
+    backgroundColor: 'gray',
+    borderRadius: 6,
+    alignSelf: 'center',
+  },
+
   text: {
     fontSize: 16,
     fontWeight: '600',

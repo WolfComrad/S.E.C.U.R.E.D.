@@ -1,9 +1,9 @@
-import {JACOBS_IP} from '../url';
+import {JACOBS_IP, MARCOS_IP} from '../url';
+const IP = MARCOS_IP
 export const apiRoutes = {
-  login: `${JACOBS_IP}/api/Authorization/login/`,
-  register: `${JACOBS_IP}/api/Authorization/register`,
-  logout: `${JACOBS_IP}/api/Authorization/logout`,
-  whoami: `${JACOBS_IP}/api/Authorization/whoami`,
-  fetchUsers: `${JACOBS_IP}/api/Users/getusers`,
-  fetchFriends: `${JACOBS_IP}/api/Users/friends/`,
+  login: `${IP}/api/Authorization/login/`,
+  register: `${IP}/api/Authorization/register`,
+  logout: `${IP}/api/Authorization/logout`,
+  whoami: `${IP}/api/Authorization/whoami`,
+  chats: `${IP}/api/Message`
 } as const;

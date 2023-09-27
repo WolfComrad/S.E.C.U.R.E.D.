@@ -4,6 +4,7 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {Screens, screens} from './ScreenRoutes';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {styles} from '../styles/styles';
 import DiffIcon from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
 import {apiRoutes} from '../urls/routes/routes';

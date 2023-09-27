@@ -388,3 +388,4 @@ SecureMobile/android/app/build/intermediates/incremental/mergeDebugShaders
 SecureMobile/android/app/build/intermediates/incremental/packageDebug/tmp/debug/zip-cache/javaResources0
 SecureMobile/android/app/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt
 SecureMobile/android/app/build/intermediates/source_set_path_map/debug/file-map.txt
+SecureMobile/android/app/build/generated/rncli/src/main/java/com/facebook/react/PackageList.java
