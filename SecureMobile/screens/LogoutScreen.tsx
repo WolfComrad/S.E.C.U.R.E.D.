@@ -13,7 +13,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {Screens, screens} from './ScreenRoutes';
-import {styles} from '../styles';
+import {styles} from '../styles/styles';
 const LogoutScreen = () => {
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation<NativeStackNavigationProp<any, Screens>>();
