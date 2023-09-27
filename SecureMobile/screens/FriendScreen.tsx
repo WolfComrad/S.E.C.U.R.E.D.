@@ -7,7 +7,7 @@ import {useUser} from '../UserContext';
 import {UserDto} from '../types';
 import {apiRoutes} from '../urls/routes/routes';
 import {Screens} from './ScreenRoutes';
-import {styles} from '../styles/styles';
+import {styles} from '../styles';
 import Friend from '../components/Friend';
 
 const FriendScreen = () => {

@@ -2,7 +2,7 @@ import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {UserDto} from '../types';
 import {Int32} from 'react-native/Libraries/Types/CodegenTypes';
-import {styles} from '../styles/styles';
+import {styles} from '../styles';
 
 const User = (item: UserDto) => {
   return (

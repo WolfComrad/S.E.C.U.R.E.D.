@@ -5,7 +5,5 @@ export const apiRoutes = {
   register: `${IP}/api/Authorization/register`,
   logout: `${IP}/api/Authorization/logout`,
   whoami: `${IP}/api/Authorization/whoami`,
-  chats: `${IP}/api/Message`,
-  fetchFriends: `${IP}/api/Users/friends/`,
-  fetchUsers: `${IP}/api/Users/getusers`
+  chats: `${IP}/api/Message`
 } as const;

@@ -1,7 +1,7 @@
 import {View, Text, Pressable, Image} from 'react-native';
 import React from 'react';
 import {UserDto} from '../types';
-import {styles} from '../styles/styles';
+import {styles} from '../styles';
 
 const Friend = (item: UserDto) => {
   return (
