@@ -22,6 +22,7 @@ const ChatsScreen = () => {
     });
   }, []);
 
+  //Testing with dummy message objects
   const messages = [
     {
       _id: 1,

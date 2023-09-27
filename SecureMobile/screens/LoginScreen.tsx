@@ -53,7 +53,6 @@ const LoginScreen = () => {
         setLoginPressed(true);
         setLoginError(true);
         setLoading(false);
-        Alert.alert('Login Error', 'An error occurred while logging In');
         console.log('Username: ', user.userName, '\nPassword: ', user.password);
         console.log(error);
       });
