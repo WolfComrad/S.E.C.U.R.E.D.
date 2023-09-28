@@ -66,12 +66,12 @@ public class FriendRequestController : ControllerBase
        
     }
 
-    [HttpPost("accept")]
+    [HttpPost("accept/{id}")]
     [Authorize]
-    public async Task<IActionResult> AcceptFriendRequest(int requestId)
-     {
+    public async Task<IActionResult> AcceptFriendRequest(int id)
+      {
         var recievingUser = await this.userManager.GetUserAsync(User);
-        var request = dataContext.FriendRequest.FirstOrDefault(x => x.Id == requestId);
+        var request = dataContext.FriendRequest.FirstOrDefault(x => x.Id == id);
 
         var sendingUser  = this.userManager.Users.FirstOrDefault(x => x.Id == request.SenderId);
 

@@ -1,10 +1,11 @@
-import {View, Text} from 'react-native';
+import {View, Text, ScrollView} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {styles} from '../styles/styles';
 import axios from 'axios';
 import {apiRoutes} from '../urls/routes/routes';
 import {FriendRequestDto} from '../types';
 import {useUser} from '../UserContext';
+import FriendRequest from '../components/FriendRequest';
 const FriendRequestScreen = () => {
   const {userId} = useUser();
   const [friendRequest, setFriendRequest] = useState<FriendRequestDto[]>([]);
@@ -24,14 +25,19 @@ const FriendRequestScreen = () => {
   }, []);
 
   return (
-    <View style={styles.RegisterScreenStyle}>
-      <Text>
+    <View>
+      <ScrollView>
         {friendRequest.map((value, index) => (
           <View key={index}>
-            <Text>{value.userName}</Text>
+            <FriendRequest
+              id={value.id}
+              userName={value.userName}
+              receiverId={value.receiverId}
+              senderId={value.senderId}
+            />
           </View>
         ))}
-      </Text>
+      </ScrollView>
     </View>
   );
 };

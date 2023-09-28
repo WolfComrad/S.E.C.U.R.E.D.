@@ -10,4 +10,5 @@ export const apiRoutes = {
   fetchUsers: `${IP}/api/Users/getusers`,
   friendRequest: `${IP}/api/friendrequest/send`,
   fetchFriendRequest: `${IP}/api/friendrequest/get-requests/`,
+  acceptFriendRequest: `${IP}/api/friendrequest/accept/`,
 } as const;

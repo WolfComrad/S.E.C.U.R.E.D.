@@ -1,5 +1,5 @@
 import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {FriendRequestDto, UserDto} from '../types';
 import {styles} from '../styles/styles';
 import axios from 'axios';
@@ -8,6 +8,7 @@ import {useUser} from '../UserContext';
 import {Int32} from 'react-native/Libraries/Types/CodegenTypes';
 
 const User = (item: UserDto) => {
+  const [clicked, setClicked] = useState(false);
   const {userId} = useUser();
   const friendRequest = {
     senderId: userId,
@@ -22,6 +23,7 @@ const User = (item: UserDto) => {
     if (response.status !== 200) {
       return;
     }
+    setClicked(true);
   };
 
   return (
@@ -37,11 +39,17 @@ const User = (item: UserDto) => {
         <Text>{item.email}</Text>
       </View>
       <View>
-        <Pressable
-          style={styles.FriendButtonStyle}
-          onPress={handleFriendRequest}>
-          <Text style={styles.SimpleTextStyle}>Add Friend</Text>
-        </Pressable>
+        {clicked ? (
+          <Pressable disabled={true}>
+            <Text>Pending</Text>
+          </Pressable>
+        ) : (
+          <Pressable
+            style={styles.FriendButtonStyle}
+            onPress={handleFriendRequest}>
+            <Text style={styles.SimpleTextStyle}>Add Friend</Text>
+          </Pressable>
+        )}
       </View>
     </Pressable>
   );
