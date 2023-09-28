@@ -8,3 +8,10 @@ export type UserDto = {
   userName: string;
   email: string;
 };
+
+export type FriendRequestDto = {
+  id: Int32;
+  senderId: Int32;
+  receiverId: Int32;
+  userName: string;
+};

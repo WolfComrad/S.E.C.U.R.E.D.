@@ -14,7 +14,7 @@ import {ScrollView} from 'react-native';
 import User from '../components/User';
 const HomeScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any, Screens>>();
-  const {userId, setUserId} = useUser();
+  const {userId} = useUser();
   const [userName, setUserName] = useState('');
   const [users, setUsers] = useState<UserDto[]>([]);
 

@@ -22,18 +22,31 @@ public class FriendRequestController : ControllerBase
         this.userManager = userManager;
     }
 
+
+    [HttpGet("get-requests/{id}")]
+    [Authorize]
+    public  async Task<ActionResult<FriendRequestDto>> GetMyFriendRequest(int id)
+    { 
+        var myFriendRequest =  this.dataContext.FriendRequest.Where(x => x.ReceiverId == id);
+        
+        var dtos = ToFriendRequestDtos(myFriendRequest);
+        return Ok(dtos);
+    }
+
+
     [HttpPost("send")]
     [Authorize]
-    public async Task<IActionResult> SendFriendRequest(int receiverId)
+    public async Task<IActionResult> SendFriendRequest(FriendRequestDto  request)
     {
         // Assuming you have authentication in place to get the current user's ID
         var sendingUser = await this.userManager.GetUserAsync(User);
-        var receivingUser = this.userManager.Users.FirstOrDefault(x => x.Id == receiverId); 
+        var receivingUser = this.userManager.Users.FirstOrDefault(x => x.Id == request.ReceiverId);
+        //var receivingUser = this.userManager.Users.FirstOrDefault(x => x.Id == receiverId);
 
         var friendRequest = new FriendRequest
         {   Sender = sendingUser,
             Receiver = receivingUser,
-            ReceiverId = receiverId,
+            ReceiverId = request.ReceiverId,
             SenderId = sendingUser.Id,
             UserName = sendingUser.UserName,
               
@@ -76,6 +89,17 @@ public class FriendRequestController : ControllerBase
      }
 
    
+    private static ICollection<FriendRequestDto> ConvertToDtoForReturn(ICollection<FriendRequestDto> data)
+    {
+        return (ICollection<FriendRequestDto>)data.Select(x => new FriendRequestDto
+        {
+            Id = x.Id,
+            UserName = x.UserName,
+            ReceiverId = x.ReceiverId,
+            SenderId = x.SenderId,
+
+        });
+    }
 
     // Helper method to get turn FriendRequest To DTO's
     private static IQueryable<FriendRequestDto> ToFriendRequestDtos(IQueryable<FriendRequest> messages)

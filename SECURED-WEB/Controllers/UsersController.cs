@@ -95,11 +95,6 @@ public class UsersController : ControllerBase
 
 
             }).ToList()
-
-
-
-
-
         });
     }
 }
