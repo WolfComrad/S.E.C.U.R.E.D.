@@ -34,7 +34,7 @@ app.UseRouting();
 app.UseAuthentication();
 
 app.UseAuthorization();
-app.UseCors();
+app.UseCors("AllowLocalhost");
 
 
 app.MapHub<ChatHub>("/chathub");

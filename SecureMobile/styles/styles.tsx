@@ -89,6 +89,7 @@ export const styles = StyleSheet.create({
     borderBottomWidth: 1,
     marginVertical: 1,
     width: 300,
+    color: 'black',
   },
 
   loginButton: {

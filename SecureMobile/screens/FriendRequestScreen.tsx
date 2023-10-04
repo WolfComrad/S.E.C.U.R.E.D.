@@ -1,11 +1,11 @@
-import {View, Text, ScrollView} from 'react-native';
+import {View, ScrollView, Pressable, Text} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {styles} from '../styles/styles';
 import axios from 'axios';
 import {apiRoutes} from '../urls/routes/routes';
 import {FriendRequestDto} from '../types';
 import {useUser} from '../UserContext';
 import FriendRequest from '../components/FriendRequest';
+import {styles} from '../styles/styles';
 const FriendRequestScreen = () => {
   const {userId} = useUser();
   const [friendRequest, setFriendRequest] = useState<FriendRequestDto[]>([]);
@@ -23,6 +23,22 @@ const FriendRequestScreen = () => {
     };
     fetchFriendRequest();
   }, []);
+  const acceptFriendRequest = async (item: FriendRequestDto) => {
+    const response = await axios.post(apiRoutes.acceptFriendRequest + item.id);
+    if (response.status !== 200) {
+      return;
+    }
+    const responseRefreshedRequest = await axios.get<FriendRequestDto[]>(
+      apiRoutes.fetchFriendRequest + userId,
+    );
+    if (responseRefreshedRequest.status !== 200) {
+      return;
+    } else {
+      console.log(responseRefreshedRequest.data);
+      setFriendRequest(responseRefreshedRequest.data);
+    }
+    console.log(responseRefreshedRequest.data);
+  };
 
   return (
     <View>
@@ -30,11 +46,10 @@ const FriendRequestScreen = () => {
         {friendRequest.map((value, index) => (
           <View key={index}>
             <FriendRequest
-              id={value.id}
-              userName={value.userName}
-              receiverId={value.receiverId}
-              senderId={value.senderId}
+             item={value}
+             handleRerender={() => acceptFriendRequest(value)}
             />
+          
           </View>
         ))}
       </ScrollView>

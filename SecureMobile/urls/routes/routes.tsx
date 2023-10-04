@@ -1,4 +1,4 @@
-import {JACOBS_IP, MARCOS_IP} from '../url';
+import {JACOBS_IP, MARCOS_IP, JACOBS_IP2} from '../url';
 const IP = JACOBS_IP;
 export const apiRoutes = {
   login: `${IP}/api/Authorization/login/`,

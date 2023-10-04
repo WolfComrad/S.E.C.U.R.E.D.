@@ -5,14 +5,12 @@ import {styles} from '../styles/styles';
 import {apiRoutes} from '../urls/routes/routes';
 import axios from 'axios';
 
-const FriendRequest = (item: FriendRequestDto) => {
-  const acceptFriendRequest = async () => {
-    const response = await axios.post(apiRoutes.acceptFriendRequest + item.id);
-    if (response.status !== 200) {
-      return;
-    }
-    console.log(response.data);
-  };
+interface ChildComponentProps {
+  handleRerender: (item: FriendRequestDto) => void;
+  item: FriendRequestDto;
+}
+
+const FriendRequest = ({item,handleRerender} : ChildComponentProps) => {
   return (
     <Pressable style={styles.UserCardStyle}>
       <View>
@@ -27,7 +25,7 @@ const FriendRequest = (item: FriendRequestDto) => {
       <View>
         <Pressable
           style={styles.FriendButtonStyle}
-          onPress={acceptFriendRequest}>
+          onPress={() => handleRerender(item)}>
           <Text style={styles.SimpleTextStyle}>Accept</Text>
         </Pressable>
       </View>
