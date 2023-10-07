@@ -74,7 +74,7 @@ namespace SECURED_WEB.Controllers
             {
                  code = await userManager.GenerateTwoFactorTokenAsync(user,"Default");
                
-                emailService.SendEmail("jacobdillon119@gmail.com", "2FA setup", $"Please set this up! use this: {code}");
+                emailService.SendEmail(user.Email, "2FA setup", $"Please set this up! use this: {code}");
                
             }
             await signInManager.SignInAsync(user, false);

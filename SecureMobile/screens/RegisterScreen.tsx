@@ -111,7 +111,7 @@ function RegisterScreen() {
           username,
           password,
         });
-        await AsyncStorage.setItem('authToken', loginResponse.data.id);
+
         if (loginResponse.status === 200) {
           console.log('Login successful');
           console.log(loginResponse.data);
@@ -124,7 +124,7 @@ function RegisterScreen() {
           setPassword('');
           setPhoneNumber('');
           setLoading(false);
-          navigate.navigate(screens.home);
+          navigate.navigate(screens.twoFactor);
         }
       } else {
         Alert.alert('error registering');

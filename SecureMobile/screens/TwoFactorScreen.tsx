@@ -6,10 +6,12 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {Screens, screens} from './ScreenRoutes';
 import {styles} from '../styles/styles';
-
+import {useUser} from '../UserContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const TwoFactorScreen = () => {
   const [twoFactor, setTwoFactor] = useState('');
   const navigation = useNavigation<NativeStackNavigationProp<any, Screens>>();
+  const {userId} = useUser();
   const TwoFactorModel = {
     code: twoFactor,
   };
@@ -23,6 +25,8 @@ const TwoFactorScreen = () => {
       console.log(twoFactor);
       return;
     }
+    console.log(userId);
+    await AsyncStorage.setItem('authToken', userId.toString());
     console.log(response.data);
     navigation.navigate(screens.home);
   };
