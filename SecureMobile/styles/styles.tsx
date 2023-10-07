@@ -125,4 +125,9 @@ export const styles = StyleSheet.create({
     color: 'gray',
     fontSize: 16,
   },
+  twoFactorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });

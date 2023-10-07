@@ -111,7 +111,7 @@ function RegisterScreen() {
           username,
           password,
         });
-        AsyncStorage.setItem('authToken', loginResponse.data.id);
+        await AsyncStorage.setItem('authToken', loginResponse.data.id);
         if (loginResponse.status === 200) {
           console.log('Login successful');
           console.log(loginResponse.data);

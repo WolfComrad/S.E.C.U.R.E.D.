@@ -3,10 +3,11 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import RegisterScreen from './screens/RegisterScreen';
 import LoginScreen from './screens/LoginScreen';
 import HomeScreen from './screens/HomeScreen';
-import ChatsScreen from './screens/ChatsScreen';
 import FriendRequestScreen from './screens/FriendRequestScreen';
 import LogoutScreen from './screens/LogoutScreen';
 import FriendScreen from './screens/FriendScreen';
+import TwoFactorScreen from './screens/TwoFactorScreen';
+import ShowChatsScreen from './screens/ShowChatsScreen';
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -17,6 +18,11 @@ const StackNavigator = () => {
         component={LoginScreen}
         options={{headerShown: false}}
       />
+      <Stack.Screen
+        name="TwoFactor"
+        component={TwoFactorScreen}
+        options={{headerShown: false}}
+      />
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen
         name="Register"
@@ -25,7 +31,7 @@ const StackNavigator = () => {
       />
       <Stack.Screen
         name="Chats"
-        component={ChatsScreen}
+        component={ShowChatsScreen}
         options={{headerShown: true}}
       />
       <Stack.Screen

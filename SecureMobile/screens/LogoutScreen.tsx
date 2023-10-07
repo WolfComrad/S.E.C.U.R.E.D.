@@ -1,12 +1,5 @@
-import {
-  View,
-  Text,
-  Pressable,
-  Alert,
-  ActivityIndicator,
-  Image,
-} from 'react-native';
-import React, {useLayoutEffect, useState} from 'react';
+import {View, Text, Pressable, Alert, ActivityIndicator} from 'react-native';
+import React, {useState} from 'react';
 import axios from 'axios';
 import {apiRoutes} from '../urls/routes/routes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -37,8 +30,8 @@ const LogoutScreen = () => {
           <ActivityIndicator size={'large'} />
         </View>
       ) : (
-        <Pressable onPress={handleLogout}>
-          <Text>logout</Text>
+        <Pressable style={styles.loginButton} onPress={handleLogout}>
+          <Text style={styles.text}>logout</Text>
         </Pressable>
       )}
     </View>

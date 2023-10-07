@@ -24,19 +24,20 @@ namespace SECURED_WEB.Controllers
 
 
         [HttpPost("enable2fa")]
-        public async Task<IActionResult> Enable2FA(string code)
+        public async Task<IActionResult> Enable2FA(Enable2FAModel model)
         {
             var user = await userManager.GetUserAsync(User);
 
 
-            var isTokenValid = await userManager.VerifyTwoFactorTokenAsync(user, "Default", code);
+            var isTokenValid = await userManager.VerifyTwoFactorTokenAsync(user, "Default", model.Code);
 
             if (isTokenValid)
             {
                 user.TwoFactorEnabled = true;
-                await signInManager.SignInAsync(user, false);
-
-                return Ok(ToUserDto(userManager.Users).SingleAsync(x => x.UserName == user.UserName));
+                await userManager.UpdateAsync(user);
+                
+               
+                return Ok(await ToUserDto(userManager.Users).SingleAsync(x => x.UserName == user.UserName));
             }
             return BadRequest("Invalid code");
         }
@@ -80,11 +81,6 @@ namespace SECURED_WEB.Controllers
 
 
                 }).ToList()
-
-
-
-
-
             });
         }
     }

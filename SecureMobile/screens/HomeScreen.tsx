@@ -115,6 +115,7 @@ const HomeScreen = () => {
               lastName={value.lastName}
               phoneNumber={value.phoneNumber}
               email={value.email}
+              twoFactorEnabled={value.twoFactorEnabled}
             />
           </View>
         ))}

@@ -23,7 +23,12 @@ namespace SECURED_WEB.Controllers
         private readonly IServiceProvider service;
         private readonly EmailService emailService;
 
-        public AuthorizationController(SignInManager<User> signInManager, UserManager<User> userManager, IServiceProvider service, ChatHub chatHub,EmailService emailService)
+        public AuthorizationController(SignInManager<User> signInManager, 
+            UserManager<User> userManager, 
+            IServiceProvider service, 
+            ChatHub chatHub,
+            EmailService emailService
+            )
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
@@ -49,8 +54,8 @@ namespace SECURED_WEB.Controllers
         public async Task<IActionResult> Login(LoginModel login)
         {
             var user = await userManager.FindByNameAsync(login.UserName);
-          
 
+            var code = "";
            
             if (user == null)
             {
@@ -67,19 +72,17 @@ namespace SECURED_WEB.Controllers
 
             if(!await userManager.GetTwoFactorEnabledAsync(user))
             {
-                var code = await userManager.GenerateTwoFactorTokenAsync(user,"Default");
+                 code = await userManager.GenerateTwoFactorTokenAsync(user,"Default");
                
                 emailService.SendEmail("jacobdillon119@gmail.com", "2FA setup", $"Please set this up! use this: {code}");
                
             }
-
-
-            await signInManager.SignInAsync(user,false);
-            
+            await signInManager.SignInAsync(user, false);
             var resultObject = await ToUserDto(userManager.Users)
-                                     .SingleAsync(x => x.UserName == user.UserName); 
-
+                                 .SingleAsync(x => x.UserName == user.UserName);
             return Ok(resultObject);
+           
+            
               }
 
 
@@ -87,7 +90,12 @@ namespace SECURED_WEB.Controllers
         [Authorize]
         public async Task<IActionResult> Logout()
         {
+            var user = await userManager.GetUserAsync(User);
+            await userManager.ResetAuthenticatorKeyAsync(user);
+            user.TwoFactorEnabled = false;
+            await userManager.UpdateAsync(user);
             await signInManager.SignOutAsync();
+            
             return Ok();
         }
 

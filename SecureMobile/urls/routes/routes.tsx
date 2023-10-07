@@ -11,4 +11,5 @@ export const apiRoutes = {
   friendRequest: `${IP}/api/friendrequest/send`,
   fetchFriendRequest: `${IP}/api/friendrequest/get-requests/`,
   acceptFriendRequest: `${IP}/api/friendrequest/accept/`,
+  twoFactorEnable: `${IP}/api/twofactor/enable2fa/`,
 } as const;
