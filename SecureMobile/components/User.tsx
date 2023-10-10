@@ -5,7 +5,6 @@ import {styles} from '../styles/styles';
 import axios from 'axios';
 import {apiRoutes} from '../urls/routes/routes';
 import {useUser} from '../UserContext';
-import {Int32} from 'react-native/Libraries/Types/CodegenTypes';
 
 const User = (item: UserDto) => {
   const [clicked, setClicked] = useState(false);
@@ -40,8 +39,8 @@ const User = (item: UserDto) => {
       </View>
       <View>
         {clicked ? (
-          <Pressable disabled={true}>
-            <Text>Pending</Text>
+          <Pressable disabled={true} style={styles.PendingButtonStyle}>
+            <Text style={styles.SimpleTextStyle}>Pending</Text>
           </Pressable>
         ) : (
           <Pressable

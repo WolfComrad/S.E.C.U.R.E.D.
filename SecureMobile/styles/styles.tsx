@@ -30,6 +30,12 @@ export const styles = StyleSheet.create({
     borderRadius: 15,
     margin: 10,
   },
+  PendingButtonStyle: {
+    backgroundColor: 'gray',
+    padding: 8,
+    borderRadius: 15,
+    margin: 10,
+  },
 
   RegisterScreenStyle: {
     justifyContent: 'center',

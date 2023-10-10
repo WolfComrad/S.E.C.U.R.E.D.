@@ -8,6 +8,7 @@ import LogoutScreen from './screens/LogoutScreen';
 import FriendScreen from './screens/FriendScreen';
 import TwoFactorScreen from './screens/TwoFactorScreen';
 import ShowChatsScreen from './screens/ShowChatsScreen';
+import {Platform} from 'react-native';
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -44,7 +45,7 @@ const StackNavigator = () => {
         component={FriendRequestScreen}
         options={{headerShown: true}}
       />
-      <Stack.Screen name="Logout" component={LogoutScreen} />
+      <Stack.Screen name="Logout" component={LogoutScreen} options={{gestureEnabled:false}}/>
     </Stack.Navigator>
   );
 };

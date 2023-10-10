@@ -1,15 +1,27 @@
-import {View, ScrollView, Pressable, Text} from 'react-native';
+import {
+  View,
+  ScrollView,
+  Pressable,
+  Text,
+  GestureResponderEvent,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import {apiRoutes} from '../urls/routes/routes';
 import {FriendRequestDto} from '../types';
 import {useUser} from '../UserContext';
 import FriendRequest from '../components/FriendRequest';
-import {styles} from '../styles/styles';
+import {useNavigation} from '@react-navigation/native';
 const FriendRequestScreen = () => {
   const {userId} = useUser();
   const [friendRequest, setFriendRequest] = useState<FriendRequestDto[]>([]);
+
+  const navigation = useNavigation();
+
   useEffect(() => {
+    navigation.setOptions({
+      gestureEnabled: false,
+    });
     const fetchFriendRequest = async () => {
       const response = await axios.get<FriendRequestDto[]>(
         apiRoutes.fetchFriendRequest + userId,
@@ -46,10 +58,9 @@ const FriendRequestScreen = () => {
         {friendRequest.map((value, index) => (
           <View key={index}>
             <FriendRequest
-             item={value}
-             handleRerender={() => acceptFriendRequest(value)}
+              item={value}
+              handleRerender={() => acceptFriendRequest(value)}
             />
-          
           </View>
         ))}
       </ScrollView>
@@ -58,3 +69,5 @@ const FriendRequestScreen = () => {
 };
 
 export default FriendRequestScreen;
+
+

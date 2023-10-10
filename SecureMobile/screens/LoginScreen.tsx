@@ -27,7 +27,7 @@ const LoginScreen = () => {
   const [loginPressed, setLoginPressed] = useState(false);
   const [loginError, setLoginError] = useState(false);
   const navigation = useNavigation<NativeStackNavigationProp<any, Screens>>();
-  const {login} = useUser();
+  const {login, userId} = useUser();
   const user = {
     userName: username,
     password: password,
@@ -36,16 +36,17 @@ const LoginScreen = () => {
     setLoading(true);
     await axios
       .post<UserDto>(apiRoutes.login, user)
-      .then(res => {
+      .then(async res => {
         if (res.data.twoFactorEnabled === false) {
-          console.log('cooking now boiiiiiiiiiiiiiiiiiiiiiii');
+          console.log('cooking now boiiiiiiiiiiiiiiiiiiiiiii', res.data.id);
+          login(res.data.id.toString());
+          await AsyncStorage.setItem('authToken', userId);
           navigation.navigate(screens.twoFactor);
         } else {
           console.log(res.data.id);
-          let token = res.data.id;
-          login(token.toString());
-          console.log(token);
-          AsyncStorage.setItem('authToken', token.toString());
+          login(res.data.id.toString());
+          console.log('this is the else statement:', userId);
+          await AsyncStorage.setItem('authToken', userId);
           setUsername('');
           setPassword('');
           setLoading(false);

@@ -1,5 +1,5 @@
 import {View, Text, TextInput, Pressable} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import {apiRoutes} from '../urls/routes/routes';
 import {useNavigation} from '@react-navigation/native';
@@ -11,10 +11,23 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const TwoFactorScreen = () => {
   const [twoFactor, setTwoFactor] = useState('');
   const navigation = useNavigation<NativeStackNavigationProp<any, Screens>>();
-  const {userId} = useUser();
+  const {login, userId} = useUser();
   const TwoFactorModel = {
     code: twoFactor,
   };
+
+  useEffect(() => {
+    const whoIs = async () => {
+      const response = await axios.get(apiRoutes.whoami);
+      if (response.status === 200) {
+        login(response.data.id);
+      } else {
+        return;
+      }
+      whoIs();
+    };
+  });
+
   const handleSubmit = async () => {
     console.log(twoFactor);
     const response = await axios.post(
@@ -23,12 +36,15 @@ const TwoFactorScreen = () => {
     );
     if (response.status !== 200) {
       console.log(twoFactor);
+      console.log(userId);
+
       return;
     }
-    console.log(userId);
-    await AsyncStorage.setItem('authToken', userId.toString());
+
     console.log(response.data);
-    navigation.navigate(screens.home);
+    //await AsyncStorage.setItem('authToken', userId);
+    setTwoFactor('');
+    navigation.push(screens.home);
   };
   return (
     <View style={styles.screenContainer}>

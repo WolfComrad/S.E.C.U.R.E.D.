@@ -12,7 +12,7 @@ import {ScrollView} from 'react-native';
 import User from '../components/User';
 const HomeScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any, Screens>>();
-  const {userId} = useUser();
+  const {userId,login} = useUser();
   const [friendRequest, setFriendRequest] = useState<FriendRequestDto[]>([]);
   const [userName, setUserName] = useState('');
   const [users, setUsers] = useState<UserDto[]>([]);
@@ -22,8 +22,12 @@ const HomeScreen = () => {
   useEffect(() => {
     const getUser = async () => {
       const response = await axios.get<UserDto>(apiRoutes.whoami);
-      console.log(response.data);
-      setUserName(response.data.userName);
+      if (response.status === 200) {
+        setUserName(response.data.userName);
+        console.log(userName, 'dkdkdkdkdk');
+        login(response.data.id.toString())
+      }
+
       console.log(userId);
     };
     const fetchUsers = async () => {
