@@ -29,14 +29,14 @@ public class EmailService
         
         int port = int.Parse(configuration["EmailConfiguration:SmtpPort"]);
         emailMessage.Body = bodyBuilder.ToMessageBody();
-
+        var password = System.Environment.GetEnvironmentVariable("SMTP_PASS");
         using (var client = new SmtpClient())
         {
 
            client.Connect(configuration["EmailConfiguration:SmtpServer"], port);
            
 
-           client.Authenticate(configuration["EmailConfiguration:SmtpUsername"], configuration["EmailConfiguration:SmtpPassword"]);
+           client.Authenticate(configuration["EmailConfiguration:SmtpUsername"], password );
            client.Send(emailMessage);
            client.Disconnect(true);
         }
