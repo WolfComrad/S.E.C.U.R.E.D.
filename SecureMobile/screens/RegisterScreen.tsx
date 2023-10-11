@@ -111,7 +111,7 @@ function RegisterScreen() {
           username,
           password,
         });
-        AsyncStorage.setItem('authToken', loginResponse.data.id);
+
         if (loginResponse.status === 200) {
           console.log('Login successful');
           console.log(loginResponse.data);
@@ -124,7 +124,7 @@ function RegisterScreen() {
           setPassword('');
           setPhoneNumber('');
           setLoading(false);
-          navigate.navigate(screens.home);
+          navigate.navigate(screens.twoFactor);
         }
       } else {
         Alert.alert('error registering');
@@ -172,7 +172,7 @@ function RegisterScreen() {
                   {!checkValidEmail ? (
                     <Text style={{color: 'green'}}>* Accepted</Text>
                   ) : (
-                    <Text style={{color: 'red'}}>* Incorrect Format</Text>
+                    <Text style={{color: 'red'}}>*</Text>
                   )}
                 </Text>
               </View>
@@ -190,7 +190,7 @@ function RegisterScreen() {
                   {!checkFirstName ? (
                     <Text style={{color: 'green'}}>* Accepted</Text>
                   ) : (
-                    <Text style={{color: 'red'}}>* Incorrect Format</Text>
+                    <Text style={{color: 'red'}}>*</Text>
                   )}
                 </Text>
               </View>
@@ -207,7 +207,7 @@ function RegisterScreen() {
                   {!checkLastName ? (
                     <Text style={{color: 'green'}}>* Accepted</Text>
                   ) : (
-                    <Text style={{color: 'red'}}>* Incorrect Format</Text>
+                    <Text style={{color: 'red'}}>*</Text>
                   )}
                 </Text>
               </View>
@@ -236,7 +236,7 @@ function RegisterScreen() {
                   {!checkValidPhoneNumber ? (
                     <Text style={{color: 'green'}}>* Accepted</Text>
                   ) : (
-                    <Text style={{color: 'red'}}>* Incorrect Format</Text>
+                    <Text style={{color: 'red'}}>*</Text>
                   )}
                 </Text>
               </View>
@@ -254,7 +254,7 @@ function RegisterScreen() {
                   {!checkValidPassword ? (
                     <Text style={{color: 'green'}}>* Accepted</Text>
                   ) : (
-                    <Text style={{color: 'red'}}>* Incorrect Format</Text>
+                    <Text style={{color: 'red'}}>*</Text>
                   )}
                 </Text>
               </View>

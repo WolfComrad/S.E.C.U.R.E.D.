@@ -33,6 +33,8 @@ public class UserDto
     public string Email { get; set; } = string.Empty;
 
     public string PhoneNumber { get; set; } = string.Empty;
+
+    public bool TwoFactorEnabled { get; set; } = false;
     public ICollection<FriendRequestDto> SentFriendRequest { get; set;} = new List<FriendRequestDto>();
     public ICollection<FriendRequestDto> ReceivedFriendRequest { get; set; } = new List<FriendRequestDto>();
     public  ICollection<UserDto> Friends { get; set; } = new List<UserDto>();

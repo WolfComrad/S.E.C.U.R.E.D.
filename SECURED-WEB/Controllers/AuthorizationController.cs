@@ -8,6 +8,8 @@ using SECURED_WEB.Entities;
 using SECURED_WEB.Extensions;
 using SECURED_WEB.Hubs;
 using SECURED_WEB.Models;
+using SECURED_WEB.Services;
+using System.CodeDom.Compiler;
 
 namespace SECURED_WEB.Controllers
 {
@@ -19,13 +21,20 @@ namespace SECURED_WEB.Controllers
         private readonly UserManager<User> userManager;
         private readonly ChatHub chatHub;
         private readonly IServiceProvider service;
+        private readonly EmailService emailService;
 
-        public AuthorizationController(SignInManager<User> signInManager, UserManager<User> userManager, IServiceProvider service, ChatHub chatHub)
+        public AuthorizationController(SignInManager<User> signInManager, 
+            UserManager<User> userManager, 
+            IServiceProvider service, 
+            ChatHub chatHub,
+            EmailService emailService
+            )
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
             this.service = service;
             this.chatHub = chatHub;
+            this.emailService = emailService;
    }
 
         [HttpGet("whoami")]
@@ -45,8 +54,8 @@ namespace SECURED_WEB.Controllers
         public async Task<IActionResult> Login(LoginModel login)
         {
             var user = await userManager.FindByNameAsync(login.UserName);
-          
 
+            var code = "";
            
             if (user == null)
             {
@@ -54,18 +63,26 @@ namespace SECURED_WEB.Controllers
             }
 
             var result = await signInManager.CheckPasswordSignInAsync(user, login.Password, true);
-
+           
+           
             if(!result.Succeeded) 
             {
                 return BadRequest();
             }
 
-            await signInManager.SignInAsync(user,false);
-            
+            if(!await userManager.GetTwoFactorEnabledAsync(user))
+            {
+                 code = await userManager.GenerateTwoFactorTokenAsync(user,"Default");
+               
+                emailService.SendEmail(user.Email, "2FA setup", $"Please set this up! use this: {code}");
+               
+            }
+            await signInManager.SignInAsync(user, false);
             var resultObject = await ToUserDto(userManager.Users)
-                                     .SingleAsync(x => x.UserName == user.UserName); 
-
+                                 .SingleAsync(x => x.UserName == user.UserName);
             return Ok(resultObject);
+           
+            
               }
 
 
@@ -73,7 +90,12 @@ namespace SECURED_WEB.Controllers
         [Authorize]
         public async Task<IActionResult> Logout()
         {
+            var user = await userManager.GetUserAsync(User);
+            await userManager.ResetAuthenticatorKeyAsync(user);
+            user.TwoFactorEnabled = false;
+            await userManager.UpdateAsync(user);
             await signInManager.SignOutAsync();
+            
             return Ok();
         }
 
@@ -133,6 +155,7 @@ namespace SECURED_WEB.Controllers
                 UserName = x.UserName,
                 Email = x.Email,
                 PhoneNumber = x.PhoneNumber,
+                TwoFactorEnabled = x.TwoFactorEnabled,
                 SentFriendRequest = x.SentFriendRequests.Select(x => new FriendRequestDto
                 {
                     Id = x.Id,

@@ -8,8 +8,9 @@ export const screens = {
     chats: 'Chats',
     friend: "Friend",
     friendRequest: 'FriendRequest',
+    twoFactor:"TwoFactor",
 } as const;
 
-export type Screens = 'Home' | 'Login' | 'Register' | 'Logout' | 'Chats' | 'FriendRequest' | 'Screens';
+export type Screens = 'Home' | 'Login' | 'Register' | 'Logout' | 'Chats' | 'FriendRequest' | 'TwoFactor' | "Friend";
 
 

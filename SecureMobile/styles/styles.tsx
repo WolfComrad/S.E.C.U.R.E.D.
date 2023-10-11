@@ -30,6 +30,12 @@ export const styles = StyleSheet.create({
     borderRadius: 15,
     margin: 10,
   },
+  PendingButtonStyle: {
+    backgroundColor: 'gray',
+    padding: 8,
+    borderRadius: 15,
+    margin: 10,
+  },
 
   RegisterScreenStyle: {
     justifyContent: 'center',
@@ -89,6 +95,7 @@ export const styles = StyleSheet.create({
     borderBottomWidth: 1,
     marginVertical: 1,
     width: 300,
+    color: 'black',
   },
 
   loginButton: {
@@ -123,5 +130,10 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     color: 'gray',
     fontSize: 16,
+  },
+  twoFactorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

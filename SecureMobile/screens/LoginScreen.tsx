@@ -14,7 +14,7 @@ import {styles} from '../styles/styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {screens} from './ScreenRoutes';
+import {Screens, screens} from './ScreenRoutes';
 import {UserDto} from '../types';
 import {useUser} from '../UserContext';
 
@@ -26,28 +26,33 @@ const LoginScreen = () => {
   const [checkValidPassword, setCheckValidPassword] = useState(true);
   const [loginPressed, setLoginPressed] = useState(false);
   const [loginError, setLoginError] = useState(false);
-  const navigation = useNavigation<NativeStackNavigationProp<any>>();
-  const {login} = useUser();
+  const navigation = useNavigation<NativeStackNavigationProp<any, Screens>>();
+  const {login, userId} = useUser();
   const user = {
     userName: username,
     password: password,
   };
   const handleLogin = async () => {
     setLoading(true);
-    axios
+    await axios
       .post<UserDto>(apiRoutes.login, user)
-      .then(res => {
-        
-        console.log(res.data.id);
-        let token = res.data.id;
-        login(token.toString());
-        console.log(token);
-        AsyncStorage.setItem('authToken', token.toString());
-        setUsername('');
-        setPassword('');
-        setLoading(false);
-        setLoginError(false); 
-        navigation.replace(screens.home);
+      .then(async res => {
+        if (res.data.twoFactorEnabled === false) {
+          console.log('cooking now boiiiiiiiiiiiiiiiiiiiiiii', res.data.id);
+          login(res.data.id.toString());
+          await AsyncStorage.setItem('authToken', userId);
+          navigation.navigate(screens.twoFactor);
+        } else {
+          console.log(res.data.id);
+          login(res.data.id.toString());
+          console.log('this is the else statement:', userId);
+          await AsyncStorage.setItem('authToken', userId);
+          setUsername('');
+          setPassword('');
+          setLoading(false);
+          setLoginError(false);
+          navigation.replace(screens.home);
+        }
       })
       .catch(error => {
         setLoginPressed(true);
@@ -56,27 +61,6 @@ const LoginScreen = () => {
         console.log('Username: ', user.userName, '\nPassword: ', user.password);
         console.log(error);
       });
-
-    // try {
-    //   const loginResponse = await axios.post<UserDto>(apiRoutes.login, user);
-    //   if (loginResponse.status === 200) {
-    //     console.log(loginResponse.data);
-    //     let token = loginResponse.data.id;
-    //     login(token.toString());
-    //     console.log(token);
-    //     AsyncStorage.setItem('authToken', token.toString());
-    //     setUsername('');
-    //     setPassword('');
-    //     navigation.replace(screens.home);
-    //     setLoading(false);
-    //   } else {
-    //     setLoading(false);
-    //     Alert.alert('Login Error', 'An Error occurred while Loggin In');
-    //   }
-    // } catch (error) {
-    //   Alert.alert('Login Error', 'An Error occurred while Loggin In');
-    //   console.log(error);
-    // }
   };
 
   useEffect(() => {

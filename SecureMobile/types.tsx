@@ -7,4 +7,12 @@ export type UserDto = {
   phoneNumber: string;
   userName: string;
   email: string;
+  twoFactorEnabled: boolean;
+};
+
+export type FriendRequestDto = {
+  id: Int32;
+  senderId: Int32;
+  receiverId: Int32;
+  userName: string;
 };
