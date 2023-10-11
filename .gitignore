@@ -391,3 +391,4 @@ SecureMobile/android/app/build/intermediates/source_set_path_map/debug/file-map.
 SecureMobile/android/app/build/generated/rncli/src/main/java/com/facebook/react/PackageList.java
 SecureMobile/android/app/build/intermediates/merged_res_blame_folder/debug/out/multi-v2
 SecureMobile/android/app/build/intermediates/manifest_merge_blame_file/debug
+SecureMobile/android/app/build/intermediates/incremental/debug/mergeDebugResources/merged.dir
