@@ -10,9 +10,10 @@ import {FriendRequestDto, UserDto} from '../types';
 import {useUser} from '../UserContext';
 import {ScrollView} from 'react-native';
 import User from '../components/User';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const HomeScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any, Screens>>();
-  const {userId,login} = useUser();
+  const {userId, login} = useUser();
   const [friendRequest, setFriendRequest] = useState<FriendRequestDto[]>([]);
   const [userName, setUserName] = useState('');
   const [users, setUsers] = useState<UserDto[]>([]);
@@ -25,7 +26,8 @@ const HomeScreen = () => {
       if (response.status === 200) {
         setUserName(response.data.userName);
         console.log(userName, 'dkdkdkdkdk');
-        login(response.data.id.toString())
+        login(response.data.id.toString());
+        await AsyncStorage.setItem('authToken', userId);
       }
 
       console.log(userId);
