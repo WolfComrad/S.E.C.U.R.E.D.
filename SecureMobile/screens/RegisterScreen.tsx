@@ -156,7 +156,7 @@ function RegisterScreen() {
 
         let username = userDto.userName;
         let password = userDto.password;
-        const loginResponse = await axios.post(apiRoutes.login, {
+        const loginResponse = await axios.post<UserDto>(apiRoutes.login, {
           username,
           password,
         });
@@ -164,7 +164,8 @@ function RegisterScreen() {
         if (loginResponse.status === 200) {
           console.log('Login successful');
           console.log(loginResponse.data);
-          login(loginResponse.data.id);
+          login(loginResponse.data.id.toString());
+          await AsyncStorage.setItem('authToken', loginResponse.data.userName);
 
           setFirstName('');
           setLastName('');
