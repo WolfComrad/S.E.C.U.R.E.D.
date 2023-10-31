@@ -9,6 +9,7 @@ import FriendScreen from './screens/FriendScreen';
 import TwoFactorScreen from './screens/TwoFactorScreen';
 import ShowChatsScreen from './screens/ShowChatsScreen';
 import {Platform} from 'react-native';
+import ChattingWithScreen from './screens/ChattingWithScreen';
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -34,6 +35,10 @@ const StackNavigator = () => {
         name="Chats"
         component={ShowChatsScreen}
         options={{headerShown: true}}
+      />
+      <Stack.Screen
+      name='ChattingWith'
+      component={ChattingWithScreen}
       />
       <Stack.Screen
         name="Friend"
