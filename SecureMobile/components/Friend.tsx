@@ -8,7 +8,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 const Friend = (item: UserDto) => {
   const navigation = useNavigation<NativeStackNavigationProp<any, Screens>>();
   const StartChatting = () => {
-    navigation.push('ChattingWith');
+    navigation.push('ChattingWith',{item});
   };
 
   return (

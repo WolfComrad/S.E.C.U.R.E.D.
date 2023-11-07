@@ -1,77 +1,78 @@
-import React, {useLayoutEffect, useState} from 'react';
-import {View, Text, Pressable, Image, TextInput} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import React, {useCallback, useEffect, useLayoutEffect, useState} from 'react';
+import {Image, Pressable, Text, View} from 'react-native';
+import {
+  ParamListBase,
+  RouteProp,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
+import {Avatar, GiftedChat, IMessage} from 'react-native-gifted-chat';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {Screens, screens} from './ScreenRoutes';
+import {Icon} from 'react-native-vector-icons/Icon';
+import {UserDto} from '../types';
+
+type ChattingWithScreenParams = {
+  item: UserDto;
+};
+
+const userguy = {
+  _id: '1',
+  name: 'john',
+  avatar:
+    'https://bestprofilepictures.com/wp-content/uploads/2021/08/Amazing-Profile-Picture-for-Facebook.jpg',
+};
+
 const ChattingWithScreen = () => {
-  const navigation = useNavigation<any>();
-  const [sendButton, setSendButton] = useState(false);
+  const [messages, setMessages] = useState<IMessage[]>([]);
+  const route =
+    useRoute<RouteProp<Record<string, ChattingWithScreenParams>, string>>();
+  const navigation = useNavigation<NativeStackNavigationProp<any, Screens>>();
 
-  const checkInput = (input: string) => {
-    if (input.length == 0) {
-      setSendButton(false);
-    } else {
-      setSendButton(true);
-    }
-  };
-
+  let item: UserDto = route.params?.item;
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <View
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            right: 60,
-          }}>
-          <Pressable onPress={() => console.log('My Friends Profile Dude')}>
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <Pressable onPress={() => navigation.navigate(screens.logout)}>
             <Image
               style={{
-                width: 60,
-                height: 60,
+                width: 40,
+                height: 40,
                 borderRadius: 50,
               }}
-              source={require('../assets/defaultLogo.jpg')}
+              source={{
+                uri: 'https://bestprofilepictures.com/wp-content/uploads/2021/08/Amazing-Profile-Picture-for-Facebook.jpg',
+              }}
             />
+            <Text>{item.userName}</Text>
           </Pressable>
         </View>
       ),
     });
   }, []);
+  useEffect(() => {
+    setMessages([
+      {
+        _id: '1',
+        text: 'Hello developer',
+        createdAt: new Date(),
 
-  return (
-    <View
-      style={{
-        height: '100%',
-        justifyContent: 'flex-end',
-        backgroundColor: '#cbaed6',
-      }}>
-      <View
-        style={{
-          justifyContent: 'flex-start',
-          borderRadius: 29,
-          flexDirection: 'row',
-          alignItems: 'center',
-          backgroundColor: 'lightgrey',
-        }}>
-        <TextInput
-          onChangeText={input => checkInput(input)}
-          style={{
-            marginLeft: 10,
-            width: '85%',
-          }}
-          placeholder="Message"></TextInput>
-        {!sendButton ? (
-          <Pressable disabled={true}>
-            <Icon name="arrow-up-bold-circle" size={27} color={'grey'} />
-          </Pressable>
-        ) : (
-          <Pressable>
-            <Icon name="arrow-up-bold-circle" size={27} color={'blue'} />
-          </Pressable>
-        )}
-      </View>
-    </View>
-  );
+        user: {
+          _id: '2',
+          name: item.userName,
+          avatar:
+            'https://bestprofilepictures.com/wp-content/uploads/2021/08/Amazing-Profile-Picture-for-Facebook.jpg',
+        },
+      },
+    ]);
+  }, []);
+
+  const onSend = useCallback((messages: IMessage[]) => {
+    setMessages(previousMessages =>
+      GiftedChat.append(previousMessages, messages),
+    );
+  }, []);
+  return <GiftedChat messages={messages} onSend={onSend} user={userguy} />;
 };
 export default ChattingWithScreen;

@@ -38,9 +38,20 @@ public class Seeding
             UserName = "JakeSnake",
             Email = "jacobdillon119@gmail.com",
             PhoneNumber = "9852888019",
-            
-            
-           
+            Private_Key = """
+            -----BEGIN EC PRIVATE KEY-----
+            MHcCAQEEIFwaBa6O1d3+hXQ2wJEBAsXDjIvstHTbSSsJMYfvGeXioAoGCCqGSM49
+            AwEHoUQDQgAENHnFaRPT9O3tLf2ekK8/xSbz6Ox8DCLW+72McrH9pgnFLb+y0vPw
+            J+Vfs2ulupM4FtX52FwP8RCIrKLwqS3J3g==
+            -----END EC PRIVATE KEY-----
+            """,
+
+            Public_Key = """
+            -----BEGIN PUBLIC KEY-----
+            MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAENHnFaRPT9O3tLf2ekK8/xSbz6Ox8
+            DCLW+72McrH9pgnFLb+y0vPwJ+Vfs2ulupM4FtX52FwP8RCIrKLwqS3J3g==
+            -----END PUBLIC KEY-----
+            """
 
         };
         var result = await userManager.CreateAsync(Jacob, password);
@@ -50,8 +61,20 @@ public class Seeding
             LastName = "Feigero",
             UserName = "MarcoPolo",
             Email = "marcofiguero@gmail.com",
-            PhoneNumber = "9854782011"
-
+            PhoneNumber = "9854782011",
+            Private_Key = """
+            -----BEGIN EC PRIVATE KEY-----
+            MHcCAQEEIJHbUfZpZs5hekGWDDtIMWlHgkN7ZplAiHPzFFedrENIoAoGCCqGSM49
+            AwEHoUQDQgAEWxuhmEiIOWUnPv3CAwAdZhiUPX2z5xeb3g+d/I8FWxEnx4fYoVvU
+            /2RAO/3PoXWxeR7KCimrl6lr2tfx6gSB8w==
+            -----END EC PRIVATE KEY-----
+            """,
+            Public_Key = """
+            -----BEGIN PUBLIC KEY-----
+            MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEWxuhmEiIOWUnPv3CAwAdZhiUPX2z
+            5xeb3g+d/I8FWxEnx4fYoVvU/2RAO/3PoXWxeR7KCimrl6lr2tfx6gSB8w==
+            -----END PUBLIC KEY-----
+            """
         };
         await userManager.CreateAsync(Marco, password2);
         var Camden = new User

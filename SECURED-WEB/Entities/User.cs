@@ -18,6 +18,10 @@ public class User : IdentityUser<int>
     // Navigation property for Friends
     public virtual ICollection<User> Friends { get; set; } = new List<User>();
 
+    public string Private_Key { get; set; } = string.Empty;
+
+    public string Public_Key { get; set; } = string.Empty;
+
 }   
 
 
@@ -33,6 +37,9 @@ public class UserDto
     public string Email { get; set; } = string.Empty;
 
     public string PhoneNumber { get; set; } = string.Empty;
+
+    public string Private_Key { get; set; } = string.Empty;
+    public string Public_Key { get; set; } = string.Empty;
 
     public bool TwoFactorEnabled { get; set; } = false;
     public ICollection<FriendRequestDto> SentFriendRequest { get; set;} = new List<FriendRequestDto>();

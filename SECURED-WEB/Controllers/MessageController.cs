@@ -1,11 +1,7 @@
-﻿using Microsoft.AspNet.SignalR;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
 using SECURED_WEB.Data;
 using SECURED_WEB.Entities;
-using SECURED_WEB.Extensions;
 using SECURED_WEB.Hubs;
 
 namespace SECURED_WEB.Controllers;
@@ -69,6 +65,10 @@ public class MessageController : ControllerBase
         if(receiver == null)
         {
             return BadRequest();
+        }
+        if (!sender.Friends.Contains(receiver))
+        {
+            return BadRequest("Not a friend can not message.");
         }
         var createdMessage = new Message
         {

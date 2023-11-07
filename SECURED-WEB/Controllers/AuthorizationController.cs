@@ -156,6 +156,8 @@ namespace SECURED_WEB.Controllers
                 Email = x.Email,
                 PhoneNumber = x.PhoneNumber,
                 TwoFactorEnabled = x.TwoFactorEnabled,
+                Public_Key = x.Public_Key,
+                Private_Key = x.Private_Key,
                 SentFriendRequest = x.SentFriendRequests.Select(x => new FriendRequestDto
                 {
                     Id = x.Id,
