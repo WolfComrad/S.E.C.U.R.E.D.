@@ -69,6 +69,7 @@ public class UsersController : ControllerBase
             UserName = x.UserName,
             Email = x.Email,
             PhoneNumber = x.PhoneNumber,
+            Public_Key = x.Public_Key,
             SentFriendRequest = x.SentFriendRequests.Select(x => new FriendRequestDto
             {
                 Id = x.Id,
