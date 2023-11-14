@@ -16,3 +16,9 @@ export type FriendRequestDto = {
   receiverId: Int32;
   userName: string;
 };
+
+export type newUserDto = {
+  id: Int32;
+  avatar: string;
+  userName: string;
+};

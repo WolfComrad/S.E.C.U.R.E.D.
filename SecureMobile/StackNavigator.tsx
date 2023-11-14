@@ -41,6 +41,7 @@ const StackNavigator = () => {
         component={ChattingWithScreen}
         options={{headerShown: true}}
       />
+
       <Stack.Screen
         name="Chats"
         component={ShowChatsScreen}

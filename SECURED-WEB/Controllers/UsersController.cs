@@ -1,12 +1,9 @@
-﻿
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SECURED_WEB.Data;
 using SECURED_WEB.Entities;
-using System.Linq;
 
 namespace SECURED_WEB.Controllers;
 
@@ -70,6 +67,7 @@ public class UsersController : ControllerBase
             Email = x.Email,
             PhoneNumber = x.PhoneNumber,
             Public_Key = x.Public_Key,
+            Avatar = x.Avatar,
             SentFriendRequest = x.SentFriendRequests.Select(x => new FriendRequestDto
             {
                 Id = x.Id,
