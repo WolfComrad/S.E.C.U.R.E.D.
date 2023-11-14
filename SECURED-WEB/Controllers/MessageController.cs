@@ -1,12 +1,11 @@
-﻿using Microsoft.AspNet.SignalR;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 using SECURED_WEB.Data;
 using SECURED_WEB.Entities;
-using SECURED_WEB.Extensions;
 using SECURED_WEB.Hubs;
+using SECURED_WEB.Models;
+using System.Collections.Generic;
 
 namespace SECURED_WEB.Controllers;
 
@@ -34,7 +33,7 @@ public class MessageController : ControllerBase
     {
         var sessionUser = await userManager.GetUserAsync(User);
 
-        if (id == null || id != sessionUser.Id)
+        if (id == null)
         {
             return BadRequest();
         }
@@ -43,8 +42,13 @@ public class MessageController : ControllerBase
 
 
 
-       var MessageList = context.Messages.Where(x => x.ReceiverId == user.Id);
-        foreach (var message in MessageList)
+       var MessageListFromSender = context.Messages.Where(x => x.ReceiverId == sessionUser.Id && x.SenderId == user.Id);
+       var MessageListFromReciever = context.Messages.Where(x => x.SenderId == sessionUser.Id && x.ReceiverId == user.Id);
+
+
+        var CombinedMessageList = MessageListFromSender.Concat(MessageListFromReciever).OrderByDescending(x => x.DateTimeSent);
+      
+        foreach (var message in CombinedMessageList)
         {
             message.IsViewed = true;
         }
@@ -54,21 +58,28 @@ public class MessageController : ControllerBase
         }
         await context.SaveChangesAsync();
 
-        return Ok(ToMessageDto(MessageList));
+        return Ok(ToMessageDto(CombinedMessageList));
     }
 
     [HttpPost("chat")]
     [Microsoft.AspNetCore.Authorization.Authorize]
-    public async Task<IActionResult> Create(string message,int sendTo)
+    public async Task<IActionResult> Create(MessageModel model)
     {
 
         var sender = await userManager.GetUserAsync(User);
 
-        var receiver =  userManager.Users.FirstOrDefault(x => x.Id == sendTo);
+        var receiver =  userManager.Users.FirstOrDefault(x => x.Id == model.userId);
 
         if(receiver == null)
         {
             return BadRequest();
+        }
+
+       var user =  context.Users.Include(x => x.Friends).FirstOrDefault(x => x.Id == sender.Id);
+
+        if (!user.Friends.Contains(receiver))
+        {
+            return BadRequest("Not a friend can not message.");
         }
         var createdMessage = new Message
         {
@@ -78,7 +89,7 @@ public class MessageController : ControllerBase
             DateTimeSent = DateTime.UtcNow,
             IsReceived = false,
             IsViewed = false,
-            Text = message,
+            Text = model.Message,
         };
         createdMessage.ReceiverId = receiver.Id;
         sender.SentMessages.Add(createdMessage);
@@ -102,7 +113,7 @@ public class MessageController : ControllerBase
             IsReceived = x.IsReceived,
             IsViewed = x.IsViewed,
             ReceiverId = x.ReceiverId,
-            SenderId = x.SenderId
+            SenderId = x.SenderId,
             
         });
     }

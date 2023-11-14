@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using SECURED_WEB.Data;
 using SECURED_WEB.Entities;
-using System.Linq;
 
 namespace SECURED_WEB.Controllers;
 
@@ -49,6 +46,7 @@ public class FriendRequestController : ControllerBase
             ReceiverId = request.ReceiverId,
             SenderId = sendingUser.Id,
             UserName = sendingUser.UserName,
+            Pub_Key = sendingUser.Public_Key
               
         };
         dataContext.FriendRequest.Add(friendRequest);
@@ -110,6 +108,7 @@ public class FriendRequestController : ControllerBase
             UserName = x.UserName,
             ReceiverId = x.ReceiverId,
             SenderId = x.SenderId,
+            Pub_Key = x.Pub_Key,
            
         });
     }
@@ -123,6 +122,7 @@ public class FriendRequestController : ControllerBase
             UserName = x.UserName,
             Email = x.Email,
             PhoneNumber = x.PhoneNumber,
+            Public_Key = x.Public_Key,
             SentFriendRequest = x.SentFriendRequests.Select(x => new FriendRequestDto
             {
                 Id = x.Id,
@@ -137,6 +137,7 @@ public class FriendRequestController : ControllerBase
                 SenderId = x.SenderId,
                 UserName = x.UserName,
                 ReceiverId = x.ReceiverId,
+                Pub_Key = x.Pub_Key
             }).ToList(),
             Friends = x.Friends.Select(x => new UserDto
             {

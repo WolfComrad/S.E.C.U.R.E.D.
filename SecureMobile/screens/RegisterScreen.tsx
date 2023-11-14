@@ -26,6 +26,7 @@ function RegisterScreen() {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [email, setEmail] = useState('');
   const [checkFirstName, setCheckFirstName] = useState(true);
+  const [checkUsername, setCheckUserName] = useState(true);
   const [checkLastName, setCheckLastName] = useState(true);
   const [checkValidEmail, setCheckValidEmail] = useState(true);
   const [checkValidPassword, setCheckValidPassword] = useState(true);
@@ -54,42 +55,90 @@ function RegisterScreen() {
     }
   };
   const handleCheckPhoneNumber = (phoneNumber: string) => {
+    const pattern = /[`<>]/;
     let regex = /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/;
     setPhoneNumber(phoneNumber);
-
-    if (regex.test(phoneNumber)) {
-      setCheckValidPhoneNumber(false);
-    } else {
+    if (pattern.test(phoneNumber)) {
+      console.log('t');
+      Alert.alert('no injection plz');
+      setPhoneNumber('');
       setCheckValidPhoneNumber(true);
+    } else {
+      if (regex.test(phoneNumber)) {
+        setCheckValidPhoneNumber(false);
+      } else {
+        setCheckValidPhoneNumber(true);
+      }
     }
   };
 
   const handleCheckFirstName = (name: string) => {
+    const pattern = /[`<>]/;
     setFirstName(name);
-    if (name.length > 0 && !/\s/.test(name)) {
-      setCheckFirstName(false);
-    } else {
+    if (pattern.test(name)) {
+      console.log('t');
+      Alert.alert('no injection plz');
+      setFirstName('');
       setCheckFirstName(true);
+    } else {
+      if (name.length > 0 && !/\s/.test(name)) {
+        setCheckFirstName(false);
+      } else {
+        setCheckFirstName(true);
+      }
     }
   };
   const handleCheckLastName = (name: string) => {
+    const pattern = /[`<>]/;
     setLastName(name);
-    if (name.length > 0 && !/\s/.test(name)) {
-      setCheckLastName(false);
-    } else {
+    if (pattern.test(name)) {
+      console.log('t');
+      Alert.alert('no injection plz');
+      setLastName('');
       setCheckLastName(true);
+    } else {
+      if (name.length > 0 && !/\s/.test(name)) {
+        setCheckLastName(false);
+      } else {
+        setCheckLastName(true);
+      }
     }
   };
 
   const handleCheckEmail = (email: string) => {
     let re = /\S+@\S+\.\S+/;
     let regex = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
+    const pattern = /[`<>]/;
     setEmail(email);
 
-    if (re.test(email) || regex.test(email)) {
-      setCheckValidEmail(false);
-    } else {
+    if (pattern.test(email)) {
+      console.log('t');
+      Alert.alert('no injection plz');
+      setEmail('');
       setCheckValidEmail(true);
+    } else {
+      if (re.test(email) || regex.test(email)) {
+        setCheckValidEmail(false);
+      } else {
+        setCheckValidEmail(true);
+      }
+    }
+  };
+
+  const handleCheckUserName = (userName: string) => {
+    const pattern = /[`<>]/;
+    setUserName(userName);
+    if (pattern.test(userName)) {
+      console.log('t');
+      Alert.alert('no injection plz');
+      setUserName('');
+      setCheckUserName(true);
+    } else {
+      if (userName.length > 0 && !/\s/.test(userName)) {
+        setCheckUserName(false);
+      } else {
+        setCheckUserName(true);
+      }
     }
   };
 
@@ -107,7 +156,7 @@ function RegisterScreen() {
 
         let username = userDto.userName;
         let password = userDto.password;
-        const loginResponse = await axios.post(apiRoutes.login, {
+        const loginResponse = await axios.post<UserDto>(apiRoutes.login, {
           username,
           password,
         });
@@ -115,7 +164,8 @@ function RegisterScreen() {
         if (loginResponse.status === 200) {
           console.log('Login successful');
           console.log(loginResponse.data);
-          login(loginResponse.data.id);
+          login(loginResponse.data.id.toString());
+          await AsyncStorage.setItem('authToken', loginResponse.data.userName);
 
           setFirstName('');
           setLastName('');
@@ -160,13 +210,6 @@ function RegisterScreen() {
             </Text>
             <View style={{marginTop: 50}}>
               <View>
-                <TextInput
-                  value={email}
-                  onChangeText={text => handleCheckEmail(text)}
-                  style={styles.FieldStyle}
-                  placeholder="Enter Email"
-                  placeholderTextColor={'black'}
-                />
                 <Text style={{fontSize: 17, fontWeight: '600', color: 'gray'}}>
                   Email
                   {!checkValidEmail ? (
@@ -175,16 +218,16 @@ function RegisterScreen() {
                     <Text style={{color: 'red'}}>*</Text>
                   )}
                 </Text>
+                <TextInput
+                  value={email}
+                  onChangeText={text => handleCheckEmail(text)}
+                  style={styles.FieldStyle}
+                  placeholder="Enter Email"
+                  placeholderTextColor={'#afafaf'}
+                />
               </View>
 
               <View>
-                <TextInput
-                  value={firstName}
-                  onChangeText={text => handleCheckFirstName(text)}
-                  style={styles.FieldStyle}
-                  placeholder="Enter First Name"
-                  placeholderTextColor={'black'}
-                />
                 <Text style={{fontSize: 17, fontWeight: '600', color: 'gray'}}>
                   First Name
                   {!checkFirstName ? (
@@ -193,15 +236,15 @@ function RegisterScreen() {
                     <Text style={{color: 'red'}}>*</Text>
                   )}
                 </Text>
+                <TextInput
+                  value={firstName}
+                  onChangeText={text => handleCheckFirstName(text)}
+                  style={styles.FieldStyle}
+                  placeholder="Enter First Name"
+                  placeholderTextColor={'#afafaf'}
+                />
               </View>
               <View>
-                <TextInput
-                  value={lastName}
-                  onChangeText={text => handleCheckLastName(text)}
-                  style={styles.FieldStyle}
-                  placeholder="Enter Last Name"
-                  placeholderTextColor={'black'}
-                />
                 <Text style={{fontSize: 17, fontWeight: '600', color: 'gray'}}>
                   Last Name
                   {!checkLastName ? (
@@ -210,27 +253,32 @@ function RegisterScreen() {
                     <Text style={{color: 'red'}}>*</Text>
                   )}
                 </Text>
+                <TextInput
+                  value={lastName}
+                  onChangeText={text => handleCheckLastName(text)}
+                  style={styles.FieldStyle}
+                  placeholder="Enter Last Name"
+                  placeholderTextColor={'#afafaf'}
+                />
               </View>
               <View>
-                <TextInput
-                  value={userName}
-                  onChangeText={text => setUserName(text)}
-                  style={styles.FieldStyle}
-                  placeholder="Enter User Name"
-                  placeholderTextColor={'black'}
-                />
                 <Text style={{fontSize: 17, fontWeight: '600', color: 'gray'}}>
                   User Name
+                  {!checkUsername ? (
+                    <Text style={{color: 'green'}}>* Accepted</Text>
+                  ) : (
+                    <Text style={{color: 'red'}}>*</Text>
+                  )}
                 </Text>
+                <TextInput
+                  value={userName}
+                  onChangeText={text => handleCheckUserName(text)}
+                  style={styles.FieldStyle}
+                  placeholder="Enter User Name"
+                  placeholderTextColor={'#afafaf'}
+                />
               </View>
               <View>
-                <TextInput
-                  onChangeText={text => handleCheckPhoneNumber(text)}
-                  value={phoneNumber}
-                  style={styles.FieldStyle}
-                  placeholder="Enter Phone Number"
-                  placeholderTextColor={'black'}
-                />
                 <Text style={{fontSize: 17, fontWeight: '600', color: 'gray'}}>
                   Phone Number
                   {!checkValidPhoneNumber ? (
@@ -239,16 +287,15 @@ function RegisterScreen() {
                     <Text style={{color: 'red'}}>*</Text>
                   )}
                 </Text>
+                <TextInput
+                  onChangeText={text => handleCheckPhoneNumber(text)}
+                  value={phoneNumber}
+                  style={styles.FieldStyle}
+                  placeholder="Enter Phone Number"
+                  placeholderTextColor={'#afafaf'}
+                />
               </View>
               <View>
-                <TextInput
-                  value={password}
-                  onChangeText={text => handleCheckPassword(text)}
-                  style={styles.FieldStyle}
-                  placeholder="Enter Password"
-                  secureTextEntry={true}
-                  placeholderTextColor={'black'}
-                />
                 <Text style={{fontSize: 17, fontWeight: '600', color: 'gray'}}>
                   Password
                   {!checkValidPassword ? (
@@ -257,6 +304,14 @@ function RegisterScreen() {
                     <Text style={{color: 'red'}}>*</Text>
                   )}
                 </Text>
+                <TextInput
+                  value={password}
+                  onChangeText={text => handleCheckPassword(text)}
+                  style={styles.FieldStyle}
+                  placeholder="Enter Password"
+                  secureTextEntry={true}
+                  placeholderTextColor={'#afafaf'}
+                />
               </View>
             </View>
             {!checkValidEmail &&

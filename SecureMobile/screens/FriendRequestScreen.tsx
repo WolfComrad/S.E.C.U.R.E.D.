@@ -12,11 +12,14 @@ import {FriendRequestDto} from '../types';
 import {useUser} from '../UserContext';
 import FriendRequest from '../components/FriendRequest';
 import {useNavigation} from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { Screens } from './ScreenRoutes';
 const FriendRequestScreen = () => {
   const {userId} = useUser();
   const [friendRequest, setFriendRequest] = useState<FriendRequestDto[]>([]);
 
-  const navigation = useNavigation();
+  const navigation = useNavigation<NativeStackNavigationProp<any, Screens>>();
+
 
   useEffect(() => {
     navigation.setOptions({

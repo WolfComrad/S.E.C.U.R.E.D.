@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.EntityFrameworkCore;
 using SECURED_WEB.Data;
 using SECURED_WEB.Entities;
@@ -9,7 +8,6 @@ using SECURED_WEB.Extensions;
 using SECURED_WEB.Hubs;
 using SECURED_WEB.Models;
 using SECURED_WEB.Services;
-using System.CodeDom.Compiler;
 
 namespace SECURED_WEB.Controllers
 {
@@ -23,9 +21,9 @@ namespace SECURED_WEB.Controllers
         private readonly IServiceProvider service;
         private readonly EmailService emailService;
 
-        public AuthorizationController(SignInManager<User> signInManager, 
-            UserManager<User> userManager, 
-            IServiceProvider service, 
+        public AuthorizationController(SignInManager<User> signInManager,
+            UserManager<User> userManager,
+            IServiceProvider service,
             ChatHub chatHub,
             EmailService emailService
             )
@@ -35,7 +33,7 @@ namespace SECURED_WEB.Controllers
             this.service = service;
             this.chatHub = chatHub;
             this.emailService = emailService;
-   }
+        }
 
         [HttpGet("whoami")]
         [Authorize]
@@ -44,7 +42,7 @@ namespace SECURED_WEB.Controllers
             var name = User.GetUserName();
             var result = await ToUserDto(userManager.Users)
                                .SingleAsync(x => x.UserName == name);
-            return Ok(result);  
+            return Ok(result);
         }
 
 
@@ -56,34 +54,34 @@ namespace SECURED_WEB.Controllers
             var user = await userManager.FindByNameAsync(login.UserName);
 
             var code = "";
-           
+
             if (user == null)
             {
                 return BadRequest();
             }
 
             var result = await signInManager.CheckPasswordSignInAsync(user, login.Password, true);
-           
-           
-            if(!result.Succeeded) 
+
+
+            if (!result.Succeeded)
             {
                 return BadRequest();
             }
 
-            if(!await userManager.GetTwoFactorEnabledAsync(user))
+            if (!await userManager.GetTwoFactorEnabledAsync(user))
             {
-                 code = await userManager.GenerateTwoFactorTokenAsync(user,"Default");
-               
+                code = await userManager.GenerateTwoFactorTokenAsync(user, "Default");
+
                 emailService.SendEmail(user.Email, "2FA setup", $"Please set this up! use this: {code}");
-               
+
             }
             await signInManager.SignInAsync(user, false);
-            var resultObject = await ToUserDto(userManager.Users)
+            var resultObject = await ToLoginUser(userManager.Users)
                                  .SingleAsync(x => x.UserName == user.UserName);
             return Ok(resultObject);
-           
-            
-              }
+
+
+        }
 
 
         [HttpPost("logout")]
@@ -95,12 +93,12 @@ namespace SECURED_WEB.Controllers
             user.TwoFactorEnabled = false;
             await userManager.UpdateAsync(user);
             await signInManager.SignOutAsync();
-            
+
             return Ok();
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<UserDto>> Register (RegisterModel register)
+        public async Task<ActionResult<UserDto>> Register(RegisterModel register)
         {
             if (register == null)
             {
@@ -109,7 +107,7 @@ namespace SECURED_WEB.Controllers
             var users = userManager.Users.ToList();
             foreach (var user in users)
             {
-                if(user.UserName == register.UserName)
+                if (user.UserName == register.UserName)
                 {
                     return BadRequest("username is taken");
                 }
@@ -145,6 +143,21 @@ namespace SECURED_WEB.Controllers
             });
         }
 
+        private static IQueryable<UserLoginDto> ToLoginUser(IQueryable<User> users)
+        {
+
+            return users.Select(x => new UserLoginDto
+            {
+                Id = x.Id,
+                FirstName = x.FirstName,
+                LastName = x.LastName,
+                UserName = x.UserName,
+                Email = x.Email,
+                PhoneNumber = x.PhoneNumber,
+                TwoFactorEnabled = x.TwoFactorEnabled,
+            });
+        }
+
         private static IQueryable<UserDto> ToUserDto(IQueryable<User> users)
         {
             return users.Select(x => new UserDto
@@ -156,6 +169,8 @@ namespace SECURED_WEB.Controllers
                 Email = x.Email,
                 PhoneNumber = x.PhoneNumber,
                 TwoFactorEnabled = x.TwoFactorEnabled,
+                Public_Key = x.Public_Key,
+                Private_Key = x.Private_Key,
                 SentFriendRequest = x.SentFriendRequests.Select(x => new FriendRequestDto
                 {
                     Id = x.Id,

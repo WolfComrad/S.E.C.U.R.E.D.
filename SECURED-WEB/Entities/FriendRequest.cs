@@ -14,6 +14,8 @@ public class FriendRequest
     // Foreign key and navigation property for the receiver
     public int ReceiverId { get; set; }
     public virtual User Receiver { get; set; }
+
+    public string Pub_Key { get; set; } = string.Empty;
 }
 
 public class FriendRequestDto
@@ -29,5 +31,7 @@ public class FriendRequestDto
 
     // Foreign key and navigation property for the receiver
     public int ReceiverId { get; set; }
+
+    public string Pub_Key { get; set; } = string.Empty;
     
 }

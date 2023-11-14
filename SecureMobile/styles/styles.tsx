@@ -47,7 +47,11 @@ export const styles = StyleSheet.create({
   },
   FieldStyle: {
     borderBottomColor: 'gray',
+    borderRadius: 12,
     borderBottomWidth: 1,
+    borderLeftWidth: 1,
+    borderTopWidth: 1,
+    borderRightWidth: 1,
     marginVertical: 10,
     width: 300,
   },
