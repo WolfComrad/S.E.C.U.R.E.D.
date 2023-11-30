@@ -4,6 +4,6 @@ field = SubGroup(p=8457807412215847983936313197890309091837230014882537071461973
 curve = Curve(a=-435, b=299, field=field, name="help")
 print(curve)
 
-for i in range(1, 1000000000):
+for i in range(1, 4):
     p = i * curve.g
     print(f"{i}G = ({p.x}, {p.y})\n")
