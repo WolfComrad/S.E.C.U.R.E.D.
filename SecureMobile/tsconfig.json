@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "jsx": "react-native"
+  },
+  "include": [
+    "src/**/*.ts",
+    "node_modules/react-native-crypto"
+  ],
+  "extends": "@tsconfig/react-native/tsconfig.json"
+}
